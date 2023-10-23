@@ -1,0 +1,7 @@
+../Core/Lib/imu.c:50:6:normalizeV	24	static
+../Core/Lib/imu.c:62:6:gyro_read	56	static
+../Core/Lib/imu.c:86:6:gyro_zero_offset	24	static
+../Core/Lib/imu.c:106:6:mpu_init	8	static
+../Core/Lib/imu.c:113:6:rotateB2E	136	static
+../Core/Lib/imu.c:155:6:get_Acc_Angle	56	static
+../Core/Lib/imu.c:173:6:ahrs_update	120	static

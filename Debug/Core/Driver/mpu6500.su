@@ -1,0 +1,6 @@
+../Core/Driver/mpu6500.c:87:5:gyro_read_raw	40	static
+../Core/Driver/mpu6500.c:113:5:acc_read_raw	40	static
+../Core/Driver/mpu6500.c:140:6:mpu_read_all	40	static
+../Core/Driver/mpu6500.c:160:6:mpu6500_init	24	static
+../Core/Driver/mpu6500.c:195:9:get_axis_register	32	static
+../Core/Driver/mpu6500.c:203:6:write_axis_register	32	static

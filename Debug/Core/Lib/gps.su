@@ -1,0 +1,5 @@
+../Core/Lib/gps.c:141:13:_update_checksum	24	static
+../Core/Lib/gps.c:151:16:UBLOX_parse_gps	4	static
+../Core/Lib/gps.c:220:16:gpsNewFrameUBLOX	24	static
+../Core/Lib/gps.c:284:6:gpsCallback	8	static
+../Core/Lib/gps.c:292:6:gpsInit	16	static

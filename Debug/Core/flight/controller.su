@@ -1,0 +1,6 @@
+../Core/flight/../lib/maths.h:157:19:constrain	24	static
+../Core/flight/../lib/maths.h:167:21:constrainf	24	static
+../Core/flight/controller.c:37:6:pitchRollControl	72	static
+../Core/flight/controller.c:79:14:antiwindupIntergal	16	static
+../Core/flight/controller.c:86:6:setPIDgain	24	static
+../Core/flight/controller.c:100:6:attitudeCrtlReset	4	static

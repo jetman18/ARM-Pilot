@@ -1,0 +1,4 @@
+../Core/Driver/qmc5883.c:25:6:qmc5883_init	32	static
+../Core/Driver/qmc5883.c:36:6:qmc_get_raw	40	static
+../Core/Driver/qmc5883.c:44:5:qmc_read_raw	40	static
+../Core/Driver/qmc5883.c:128:6:magnet_sensor_calibrate	48	static
