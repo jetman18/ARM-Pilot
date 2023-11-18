@@ -51,12 +51,9 @@ void init_sche(){
 	max_excution_time_us = 0;
 }
 
-static void wait(){
-    static uint32_t time_us;
-    while(( micros() - time_us )<LOOP_US);
-    time_us = micros();
-}
+
 void start_scheduler() {
+  static uint32_t time_us;
   static int counter = 0;
   uint32_t time_1;
   uint32_t total_execution_time_us = 0;
@@ -76,6 +73,7 @@ void start_scheduler() {
   max_excution_time_us = total_execution_time_us;
   counter ++;
   if(counter == 3999)counter = 0;
-  wait(); 
+  while(( micros() - time_us )<LOOP_US);
+  time_us = micros();
 }
 
