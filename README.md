@@ -1,5 +1,5 @@
 # ARM-Pilot
-Flight controller design for fix-wing uav with 2 operations mode
+Flight controller design for fixed-wing uav with 2 operations mode
 1. Autopilot mode, follow waypoints
 2. Manual mode
 ## Hardware
