@@ -1,3 +1,5 @@
+
+/*
 #include "navigation.h"
 #include "controller.h"
 #include "../lib/gps.h"
@@ -10,16 +12,16 @@
 #define STICK_CHECK(x)  ((x > 1600)?1:0)
 
 #define CRICLE_RADIUS 100  // m
-/*init value*/
+
 static int32_t home_latitude;
 static int32_t home_longitude;
 static int32_t loiter_latitude;
 static int32_t loiter_longitude;
 static int32_t latitude_g;
 static int32_t longitude_g;
-static wp_init = 1;
+static int wp_init = 1;
 waypoint wp[MAX_WAYPOINT];
-static wp_index = 0;
+static int wp_index = 0;
 
 uint8_t  autopilot_priority = 0;
 uint8_t  circle_priority = 1;
@@ -139,4 +141,4 @@ static int distanceBetweenTwoPoint(int lat1,int lon1,int lat2, int lon2){
    int dis = sqrtf(a_temp*a_temp + b_temp*b_temp);
    return dis;
 }
-
+*/

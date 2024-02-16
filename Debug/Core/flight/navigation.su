@@ -1,7 +1,7 @@
 ../Core/flight/../lib/utils.h:4:12:sign	16	static
 ../Core/flight/../lib/utils.h:11:12:signf	24	static
-../Core/flight/../lib/utils.h:19:7:range360	16	static
-../Core/flight/../lib/utils.h:26:7:range180	16	static
+../Core/flight/../lib/utils.h:19:14:range360	16	static
+../Core/flight/../lib/utils.h:26:14:range180	16	static
 ../Core/flight/navigation.c:43:13:rtHome	4	static
 ../Core/flight/navigation.c:46:14:circleFly	56	static
 ../Core/flight/navigation.c:56:14:waypointFolow	56	static

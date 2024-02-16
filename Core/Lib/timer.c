@@ -1,12 +1,20 @@
 #include "timer.h"
 #include "stm32f1xx_hal.h"
-
+#include "tim.h"
 
 TIM_HandleTypeDef *htimmz;
 bootTime_t boottime;
 static uint16_t setoverFlow(int val,int flow_val);
+uint32_t micross;
 
-
+uint32_t micros()
+{
+	return (micross + (__HAL_TIM_GET_COUNTER(htimmz)));
+}
+uint32_t millis()
+{
+	return (micross/1000);
+}
 void delay_us(uint32_t val){
 	static uint32_t time_us;
   time_us = micros();
@@ -32,7 +40,14 @@ void time_inf(){
   boottime.min   = setoverFlow((sec_L/60),59);
   boottime.hour  = setoverFlow((sec_L/3600),23);
 }
+
+void timer_callback()
+{
+     micross += 65535UL;
+}
+
+
 void timer_start(TIM_HandleTypeDef *htimz){
 	htimmz = htimz;
-	HAL_TIM_Base_Start_IT(htimmz);
+	HAL_TIM_Base_Start_IT(&htim4);
 }

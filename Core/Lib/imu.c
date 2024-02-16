@@ -174,10 +174,10 @@ void ahrs_update(){
 	float norm;
 	float vx, vy, vz;
 	float ex, ey, ez;
-    float gx,gy,gz;
+  float gx,gy,gz;
 	float acc_Bframe[3];
 	float hx,hy,bx,bz;
-    float wx,wy,wz,mx,my,mz;
+  float wx,wy,wz,mx,my,mz;
 	float emx,emy,emz;
 
     gyro_read(&gyr);
@@ -287,19 +287,35 @@ void ahrs_update(){
 	acc_Eframe[X] = dcm[0][0]*acc_Bframe[X] + dcm[1][0]*acc_Bframe[Y] + dcm[2][0]*acc_Bframe[Z];
 	acc_Eframe[Y] = dcm[0][1]*acc_Bframe[X] + dcm[1][1]*acc_Bframe[Y] + dcm[2][1]*acc_Bframe[Z];
 	acc_Eframe[Z] = dcm[0][2]*acc_Bframe[X] + dcm[1][2]*acc_Bframe[Y] + dcm[2][2]*acc_Bframe[Z];
-	acc_Eframe[X] = acc_Eframe[X]/16384.0f*9.53f;
-	acc_Eframe[Y] = acc_Eframe[Y]/16384.0f*9.53f;
-	acc_Eframe[Z] = acc_Eframe[Z]/16384.0f*9.53f - 9.82f;
+	float accTrueScale = 9.8f/2048.0f;
+	acc_Eframe[X] = acc_Eframe[X]*accTrueScale;
+	acc_Eframe[Y] = acc_Eframe[Y]*accTrueScale;
+	acc_Eframe[Z] = acc_Eframe[Z]*accTrueScale;
     // Quaternion to euler angle    // deg
 	AHRS.roll  = atan2_approx(-dcm[0][2],sqrtf(1 - dcm[0][2]*dcm[0][2])) * DEG;
 	AHRS.pitch = atan2_approx(-dcm[1][2],dcm[2][2]) * DEG;
 	AHRS.yaw   = atan2_approx(dcm[0][1],dcm[0][0]) * DEG;
-	AHRS.acc_x = fapplyDeadband(acc_Eframe[X],0.05);  // dead band 0.05 m/ss
-    AHRS.acc_y = fapplyDeadband(acc_Eframe[Y],0.05);
-    AHRS.acc_z = fapplyDeadband(acc_Eframe[Z],0.05);
-	AHRS.roll_velocity  = gyr.x;    // deg/s
-	AHRS.pitch_velocity = gyr.y;
-	AHRS.yaw_velocity   = gyr.z;
+	AHRS.acc_x = acc_Eframe[X];//fapplyDeadband(acc_Eframe[X],0.05);  // dead band 0.05 m/ss
+	 static float input_filter;
+	static float filted_data;
+	const float A = 0.3f;
+	const float B = 2.0f;
+	input_filter = acc_Eframe[Y];
+	// Apply low pass filter
+	if((input_filter - filted_data) < -A | (input_filter - filted_data) > A)
+	{
+      filted_data = filted_data*0.6f + 0.4f*input_filter;
+	}
+	// Origin value
+	else{
+		filted_data = input_filter;
+	}
+  AHRS.acc_y = filted_data;//fapplyDeadband(acc_Eframe[Y],0.05);
+   
+    //p_a = a;
+	AHRS.roll_rate  = gyr.x;    // deg/s
+	AHRS.pitch_rate = gyr.y;
+	AHRS.yaw_rate   = gyr.z;
 
 }
 

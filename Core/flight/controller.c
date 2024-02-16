@@ -77,7 +77,7 @@ void pitchRollControl(float target_roll,float target_pitch){
 }
 
 static float antiwindupIntergal(float val){
-     if(abs(val)<1.0f){
+     if(fabs(val)<1.0f){
         return 0.0f;
      }
      else

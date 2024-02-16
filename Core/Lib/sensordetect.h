@@ -14,7 +14,7 @@ extern "C" {
 #define bmp280  0x76
 
 static uint8_t addr[MAXSENSOR];
-void i2cDectect(I2C_HandleTypeDef *i2c){
+static void i2cDectect(I2C_HandleTypeDef *i2c){
 	int sensor_count=0;
 	int temp;
 	for(int i=0;i<128;i++){

@@ -138,6 +138,22 @@ static union {
     uint8_t bytes[UBLOX_BUFFER_SIZE];
 } _buffer;
 
+enum {
+    GPS_UNKNOWN,
+    GPS_INITIALIZING,
+    GPS_SETBAUD,
+    GPS_CONFIGURATION,
+    GPS_RECEIVINGDATA,
+    GPS_LOSTCOMMS,
+};
+
+enum {
+    UBX_INIT_START,
+    UBX_INIT_RUN,
+    UBX_INIT_DONE,
+};
+
+
 static void _update_checksum(uint8_t *data, uint8_t len, uint8_t *ck_a, uint8_t *ck_b)
 {
     while (len--) {
@@ -146,8 +162,11 @@ static void _update_checksum(uint8_t *data, uint8_t len, uint8_t *ck_a, uint8_t 
         data++;
     }
 }
-static uint8_t _new_position;
-static gpsData_t gps_t;
+
+
+
+uint8_t _new_position;
+gpsData_t gps_t;
 static uint8_t UBLOX_parse_gps(){
     static uint8_t _new_speed;
     static uint8_t next_fix;
@@ -215,7 +234,11 @@ static uint8_t UBLOX_parse_gps(){
     }
     return FALSE;
 }
+void gpsThread(){
+    
 
+
+}
 
 static uint8_t gpsNewFrameUBLOX(uint8_t data)
 {
