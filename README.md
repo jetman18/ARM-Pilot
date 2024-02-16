@@ -1,7 +1,6 @@
 # ARM-Pilot
-## Software
-Operations mode
-1. Autopilot mode follow waypoints
+Flight controller design for fix-wing uav with 2 operations mode
+1. Autopilot mode, follow waypoints
 2. Manual mode
 ## Hardware
 Flight controller board design with proteus
