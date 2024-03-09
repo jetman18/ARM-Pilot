@@ -1,8 +1,7 @@
-#include"mavlink_handler.h"
-
-#include "../lib/timer.h"
-#include "../lib/imu.h"
-
+#include "plane.h"
+#include "timer.h"
+#include "imu.h"
+#include "mavlink.h"
 #define MAX_LENGHT 100
 
 static mavlink_named_value_int_t  val_int;

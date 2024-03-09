@@ -7,9 +7,9 @@ arm-pilot/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
   ..\Drivers\CMSIS\Device\ST\STM32F1xx\Include\stm32f103xb.h \
   ..\Drivers\CMSIS\Include\core_cm3.h \
   C:\Keil_v5\ARM\ARMCLANG\include\stdint.h \
-  C:\Users\tuan\STM32CubeIDE\workspace_1.10.0\ARM-Pilot\Drivers\CMSIS\Include\cmsis_version.h \
-  C:\Users\tuan\STM32CubeIDE\workspace_1.10.0\ARM-Pilot\Drivers\CMSIS\Include\cmsis_compiler.h \
-  C:\Users\tuan\STM32CubeIDE\workspace_1.10.0\ARM-Pilot\Drivers\CMSIS\Include\cmsis_armclang.h \
+  C:\Users\tuan\Documents\GitHub\ARM-Pilot\Drivers\CMSIS\Include\cmsis_version.h \
+  C:\Users\tuan\Documents\GitHub\ARM-Pilot\Drivers\CMSIS\Include\cmsis_compiler.h \
+  C:\Users\tuan\Documents\GitHub\ARM-Pilot\Drivers\CMSIS\Include\cmsis_armclang.h \
   C:\Keil_v5\ARM\ARMCLANG\include\arm_compat.h \
   C:\Keil_v5\ARM\ARMCLANG\include\arm_acle.h \
   ..\Drivers\CMSIS\Device\ST\STM32F1xx\Include\system_stm32f1xx.h \
@@ -30,6 +30,11 @@ arm-pilot/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
   ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_tim.h \
   ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_tim_ex.h \
   ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_uart.h \
-  ..\Core\Inc\i2c.h ..\Core\Inc\spi.h ..\Core\Inc\tim.h \
-  ..\Core\Inc\usart.h ..\Core\Inc\gpio.h \
-  ..\Core\Src\..\flight\fixedwing.h ..\Core\Src\..\lib\sensordetect.h
+  ..\FATFS\App\fatfs.h ..\Middlewares\Third_Party\FatFs\src\ff.h \
+  ..\Middlewares\Third_Party\FatFs\src\integer.h \
+  ..\FATFS\Target\ffconf.h \
+  ..\Middlewares\Third_Party\FatFs\src\ff_gen_drv.h \
+  ..\Middlewares\Third_Party\FatFs\src\diskio.h \
+  ..\FATFS\Target\user_diskio.h ..\Core\Inc\i2c.h ..\Core\Inc\spi.h \
+  ..\Core\Inc\tim.h ..\Core\Inc\usart.h ..\Core\Inc\gpio.h \
+  ..\Core\flight\plane.h ..\Core\Lib\sensordetect.h

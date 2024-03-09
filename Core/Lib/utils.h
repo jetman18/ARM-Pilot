@@ -1,6 +1,11 @@
 #ifndef __NAVIGATION__
 #define __NAVIGATION__
 
+#define MSTOSEC(x) (x*0.001f)
+#define Fase 0
+#define True 1
+
+
 static int sign(int val){
     if (val > 0)
        val = 1;

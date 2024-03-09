@@ -1,4 +1,4 @@
-arm-pilot/qmc5883.o: ..\Core\Driver\qmc5883.c ..\Core\Inc\i2c.h \
+arm-pilot/qmc5883.o: ..\Core\sensor\qmc5883.c ..\Core\Inc\i2c.h \
   ..\Core\Inc\main.h ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal.h \
   ..\Core\Inc\stm32f1xx_hal_conf.h \
   ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_rcc.h \
@@ -7,9 +7,9 @@ arm-pilot/qmc5883.o: ..\Core\Driver\qmc5883.c ..\Core\Inc\i2c.h \
   ..\Drivers\CMSIS\Device\ST\STM32F1xx\Include\stm32f103xb.h \
   ..\Drivers\CMSIS\Include\core_cm3.h \
   C:\Keil_v5\ARM\ARMCLANG\include\stdint.h \
-  C:\Users\tuan\STM32CubeIDE\workspace_1.10.0\ARM-Pilot\Drivers\CMSIS\Include\cmsis_version.h \
-  C:\Users\tuan\STM32CubeIDE\workspace_1.10.0\ARM-Pilot\Drivers\CMSIS\Include\cmsis_compiler.h \
-  C:\Users\tuan\STM32CubeIDE\workspace_1.10.0\ARM-Pilot\Drivers\CMSIS\Include\cmsis_armclang.h \
+  C:\Users\tuan\Documents\GitHub\ARM-Pilot\Drivers\CMSIS\Include\cmsis_version.h \
+  C:\Users\tuan\Documents\GitHub\ARM-Pilot\Drivers\CMSIS\Include\cmsis_compiler.h \
+  C:\Users\tuan\Documents\GitHub\ARM-Pilot\Drivers\CMSIS\Include\cmsis_armclang.h \
   C:\Keil_v5\ARM\ARMCLANG\include\arm_compat.h \
   C:\Keil_v5\ARM\ARMCLANG\include\arm_acle.h \
   ..\Drivers\CMSIS\Device\ST\STM32F1xx\Include\system_stm32f1xx.h \
@@ -30,7 +30,8 @@ arm-pilot/qmc5883.o: ..\Core\Driver\qmc5883.c ..\Core\Inc\i2c.h \
   ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_tim.h \
   ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_tim_ex.h \
   ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_uart.h \
-  C:\Keil_v5\ARM\ARMCLANG\include\math.h ..\Core\Driver\qmc5883.h \
-  ..\Core\Driver\..\lib\axis.h C:\Keil_v5\ARM\ARMCLANG\include\stdio.h \
-  ..\Core\Driver\..\lib\maths.h ..\Core\Driver\..\lib\filter.h \
-  ..\Core\Driver\..\lib\timer.h ..\Core\Driver\..\lib\imu.h
+  C:\Keil_v5\ARM\ARMCLANG\include\math.h ..\Core\sensor\qmc5883.h \
+  ..\Core\sensor\..\lib\axis.h C:\Keil_v5\ARM\ARMCLANG\include\stdio.h \
+  ..\Core\Lib\maths.h C:\Keil_v5\ARM\ARMCLANG\include\stdlib.h \
+  ..\Core\Lib\filter.h ..\Core\Lib\timer.h ..\Core\Lib\imu.h \
+  ..\Core\Lib\axis.h

@@ -8,15 +8,15 @@ extern "C" {
 #include "axis.h"
 
 typedef struct {
-    float w;
-    float x;
-    float y;
-    float z;
+    float q0;
+    float q1;
+    float q2;
+    float q3;
 }quaternion_t;
 
 typedef struct{
     float roll;
-	float pitch;
+	  float pitch;
     float yaw;
 
     float roll_rate;
@@ -29,6 +29,12 @@ typedef struct{
 }attitude_t;
 
 typedef struct{
+    float roll;
+    float pitch;
+    float yaw;
+}euler_t;
+
+typedef struct{
     int16_t accx;
     int16_t accy;
     int16_t accz;
@@ -38,7 +44,7 @@ typedef struct{
     int16_t gyroz;
 }IMU_raw_t;
 
-typedef struct imu_config{
+typedef struct{
     float gyro_f_cut;
     float acc_f_cut;
     float cpl_gain;
@@ -53,7 +59,7 @@ extern imu_config_t config;
 extern float dcm[3][3];
 extern attitude_t AHRS;
 void ahrs_update();
-void mpu_init();
+void mpu_calibrate();
 void gyro_read(faxis3_t *angle);
 #ifdef __cplusplus
 }

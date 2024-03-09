@@ -7,9 +7,9 @@ arm-pilot/imu.o: ..\Core\Lib\imu.c ..\Core\Lib\log.h \
   ..\Drivers\CMSIS\Device\ST\STM32F1xx\Include\stm32f103xb.h \
   ..\Drivers\CMSIS\Include\core_cm3.h \
   C:\Keil_v5\ARM\ARMCLANG\include\stdint.h \
-  C:\Users\tuan\STM32CubeIDE\workspace_1.10.0\ARM-Pilot\Drivers\CMSIS\Include\cmsis_version.h \
-  C:\Users\tuan\STM32CubeIDE\workspace_1.10.0\ARM-Pilot\Drivers\CMSIS\Include\cmsis_compiler.h \
-  C:\Users\tuan\STM32CubeIDE\workspace_1.10.0\ARM-Pilot\Drivers\CMSIS\Include\cmsis_armclang.h \
+  C:\Users\tuan\Documents\GitHub\ARM-Pilot\Drivers\CMSIS\Include\cmsis_version.h \
+  C:\Users\tuan\Documents\GitHub\ARM-Pilot\Drivers\CMSIS\Include\cmsis_compiler.h \
+  C:\Users\tuan\Documents\GitHub\ARM-Pilot\Drivers\CMSIS\Include\cmsis_armclang.h \
   C:\Keil_v5\ARM\ARMCLANG\include\arm_compat.h \
   C:\Keil_v5\ARM\ARMCLANG\include\arm_acle.h \
   ..\Drivers\CMSIS\Device\ST\STM32F1xx\Include\system_stm32f1xx.h \
@@ -32,6 +32,7 @@ arm-pilot/imu.o: ..\Core\Lib\imu.c ..\Core\Lib\log.h \
   ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_uart.h \
   ..\Core\Lib\imu.h ..\Core\Lib\axis.h \
   C:\Keil_v5\ARM\ARMCLANG\include\stdio.h ..\Core\Lib\maths.h \
+  C:\Keil_v5\ARM\ARMCLANG\include\stdlib.h \
   C:\Keil_v5\ARM\ARMCLANG\include\math.h ..\Core\Lib\filter.h \
-  ..\Core\Lib\timer.h ..\Core\Lib\..\Driver\mpu6500.h \
-  ..\Core\Lib\..\Driver\..\lib\axis.h ..\Core\Lib\..\Driver\qmc5883.h
+  ..\Core\Lib\timer.h ..\Core\sensor\mpu6050.h ..\Core\sensor\qmc5883.h \
+  ..\Core\sensor\..\lib\axis.h ..\Core\Inc\i2c.h ..\Core\Inc\main.h

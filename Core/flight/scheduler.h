@@ -16,7 +16,7 @@ typedef struct {
 } task_t;
 
 void start_scheduler();
-void init_sche();
+void init_scheduler();
 #ifdef __cplusplus
 }
 #endif

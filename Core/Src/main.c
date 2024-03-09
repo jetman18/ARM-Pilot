@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "fatfs.h"
 #include "i2c.h"
 #include "spi.h"
 #include "tim.h"
@@ -26,8 +27,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "../flight/fixedwing.h"
-#include "../lib/sensordetect.h"
+#include "plane.h"
+#include "sensordetect.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -96,9 +97,10 @@ int main(void)
   MX_TIM4_Init();
   MX_SPI2_Init();
   MX_I2C2_Init();
+  MX_FATFS_Init();
   /* USER CODE BEGIN 2 */
   //i2cDectect(&hi2c1);
-   main_loop();
+  // main_loop();
   /* USER CODE END 2 */
 
   /* Infinite loop */

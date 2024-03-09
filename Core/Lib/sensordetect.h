@@ -12,8 +12,10 @@ extern "C" {
 #define SSD1306 0x78
 #define qmc5883 0x0d
 #define bmp280  0x76
+#define ms5611  0x77
 
-static uint8_t addr[MAXSENSOR];
+
+uint8_t addr[MAXSENSOR];
 static void i2cDectect(I2C_HandleTypeDef *i2c){
 	int sensor_count=0;
 	int temp;

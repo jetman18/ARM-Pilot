@@ -8,9 +8,9 @@ arm-pilot/ppmreceiver.o: ..\Core\Lib\ppmreceiver.c \
   ..\Drivers\CMSIS\Device\ST\STM32F1xx\Include\stm32f103xb.h \
   ..\Drivers\CMSIS\Include\core_cm3.h \
   C:\Keil_v5\ARM\ARMCLANG\include\stdint.h \
-  C:\Users\tuan\STM32CubeIDE\workspace_1.10.0\ARM-Pilot\Drivers\CMSIS\Include\cmsis_version.h \
-  C:\Users\tuan\STM32CubeIDE\workspace_1.10.0\ARM-Pilot\Drivers\CMSIS\Include\cmsis_compiler.h \
-  C:\Users\tuan\STM32CubeIDE\workspace_1.10.0\ARM-Pilot\Drivers\CMSIS\Include\cmsis_armclang.h \
+  C:\Users\tuan\Documents\GitHub\ARM-Pilot\Drivers\CMSIS\Include\cmsis_version.h \
+  C:\Users\tuan\Documents\GitHub\ARM-Pilot\Drivers\CMSIS\Include\cmsis_compiler.h \
+  C:\Users\tuan\Documents\GitHub\ARM-Pilot\Drivers\CMSIS\Include\cmsis_armclang.h \
   C:\Keil_v5\ARM\ARMCLANG\include\arm_compat.h \
   C:\Keil_v5\ARM\ARMCLANG\include\arm_acle.h \
   ..\Drivers\CMSIS\Device\ST\STM32F1xx\Include\system_stm32f1xx.h \
@@ -33,4 +33,5 @@ arm-pilot/ppmreceiver.o: ..\Core\Lib\ppmreceiver.c \
   ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_uart.h \
   ..\Core\Lib\timer.h C:\Keil_v5\ARM\ARMCLANG\include\stdio.h \
   ..\Core\Inc\gpio.h ..\Core\Inc\main.h ..\Core\Lib\maths.h \
+  C:\Keil_v5\ARM\ARMCLANG\include\stdlib.h \
   C:\Keil_v5\ARM\ARMCLANG\include\math.h

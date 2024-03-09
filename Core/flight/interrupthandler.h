@@ -8,11 +8,11 @@ extern "C" {
 #include "usart.h"
 #include "stm32f1xx_hal.h"
 /////////////////////////
-#include "../flight/mavlink_handler.h"
+
 /////////////////////////
-#include "../Driver/ibus.h"
-#include "../lib/timer.h"
-#include "../lib/ppmreceiver.h"
+#include "ibus.h"
+#include "timer.h"
+#include "ppmreceiver.h"
 // IQR function
 //----------------------------------IQR--Handler-----------------------------
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
@@ -49,16 +49,13 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
     }
     */
 }
-
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 {
-
 	if(htim == &htim4)
 	{
-		timer_callback();
+		TIMER_CALLBACK();
 	}
 }
-
 //----------------------------------IQR--Handler-----------------------------
 
 

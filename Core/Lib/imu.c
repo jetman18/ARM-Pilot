@@ -6,11 +6,12 @@
 #include "filter.h"
 #include "timer.h"
 #include "axis.h"
-#include "../Driver/mpu6500.h"
-#include "../Driver/qmc5883.h"
+#include "mpu6050.h"
+#include "qmc5883.h"
+#include "i2c.h"
 //#define SPI
 #define ACCSMOOTH
-#define OFFSET_CYCLE    1000
+#define OFFSET_CYCLE  1000
 #define USE_MAG 0
 
 attitude_t AHRS;
@@ -19,13 +20,13 @@ float integralFBy;
 float integralFBz;
 float acc_Eframe[3];
 float accex,accey,accez;
-static float q0=1,q1,q2,q3;
+quaternion_t q_={1,0,0,0},q_t;
 static const float Ki = 0;
-static const float Kp = 20;
-const float Dt_ahrs = 0.002f;
+static const float Kp = 1;
+const float Dt_ahrs = 0.004f;
 float dcm[3][3];
 static axis3_t acce;
-static faxis3_t gyr;
+static axis3_t gyr;
 static axis3_t mag;
 float acc_pitch;
 float acc_roll;
@@ -43,7 +44,7 @@ imu_config_t config =
   .cpl_gain = 0.0001f,
   .gyro_slew_threshold=0,
   .acc_slew_threshold=0,
-  .dt = 2000, //us
+  .dt = 4000, //us
   .gyr_lsb = 32.8f
 };
 
@@ -59,12 +60,11 @@ void normalizeV(axis3_t *src)
     }
 }
 // gyro read and calibrate
-void gyro_read(faxis3_t *angle){
+void gyro_get(faxis3_t *angle){
 	axis3_t p;
 	static float gyro_v[3];
-	if(gyro_read_raw(&p)){
-		return;
-	}
+	mpu6050_gyro_get_raw(&p);
+
 	float RC = 1.0f / (2 *M_PIf *config.gyro_f_cut);
     float temp = (float)config.dt*(1e-06f);
 	float gain_lpf =temp / (RC + temp);
@@ -82,34 +82,29 @@ void gyro_read(faxis3_t *angle){
     angle->y = gyro_v[Y];
     angle->z = gyro_v[Z];
 }
+
+
 static int32_t store_gyro[3];
-void gyro_zero_offset(){
+void mpu_calibrate(){
+	 HAL_Delay(3000); // wait 3 seconds after connected battery 
 	axis3_t gyro_;
-	int16_t count_ = 0;
-	for(int i=0;i<OFFSET_CYCLE;i++){
-		if(!gyro_read_raw(&gyro_)){
-			count_++;
-			store_gyro[X] += gyro_.x;
-	    	store_gyro[Y] += gyro_.y;
-	    	store_gyro[Z] += gyro_.z;
-		}
-		delay_ms(1);
+	for(int i = 0;i < OFFSET_CYCLE;i++){
+		mpu6050_gyro_get_raw(&gyro_);
+		store_gyro[X] += gyro_.x;
+    	store_gyro[Y] += gyro_.y;
+    	store_gyro[Z] += gyro_.z;
+		delay_ms(1); // delay 1 ms
 	}
-
-    if(count_ != 0){
-      gyr_offs_x = store_gyro[X]/count_;
-      gyr_offs_y = store_gyro[Y]/count_;
-      gyr_offs_z = store_gyro[Z]/count_;
-    }
+    gyr_offs_x = store_gyro[X]/OFFSET_CYCLE;
+    gyr_offs_y = store_gyro[Y]/OFFSET_CYCLE;
+    gyr_offs_z = store_gyro[Z]/OFFSET_CYCLE;
 }
 
-void mpu_init()
-{
-   mpu6500_init();
-   HAL_Delay(3000);
-   gyro_zero_offset();
-}
 
+/* Rotate vector use rotation matrix
+ * Vector is rotated by DCM
+ * Delta is euler angle (rad/s)
+ */
 void rotateB2E(faxis3_t *vector,faxis3_t delta)
 {
     float mat[3][3];
@@ -152,13 +147,15 @@ void rotateB2E(faxis3_t *vector,faxis3_t delta)
 	vector->y =  vec.y;
 	vector->z =  vec.z;
 }
-void get_Acc_Angle(attitude_t *m)
+/* Calculate euler angles from acceleration
+ */
+void get_Acc_Angle(euler_t *m)
 {
 	axis3_t  acce;
 	faxis3_t acc;
 	uint32_t sum;
 	float length;
-    acc_read_raw(&acce);
+    mpu6050_acc_get_raw(&acce);
 	sum = acce.x*acce.x + acce.y*acce.y + acce.z*acce.z;
 	if(sum == 0){
 		return;
@@ -174,18 +171,19 @@ void ahrs_update(){
 	float norm;
 	float vx, vy, vz;
 	float ex, ey, ez;
-  float gx,gy,gz;
+    float gx,gy,gz;
 	float acc_Bframe[3];
 	float hx,hy,bx,bz;
-  float wx,wy,wz,mx,my,mz;
+    float wx,wy,wz,mx,my,mz;
 	float emx,emy,emz;
+	static float q0=1,q1,q2,q3;
 
-    gyro_read(&gyr);
+    mpu6050_gyro_get_raw(&gyr);
 	gx = gyr.x * RAD;
 	gy = gyr.y * RAD;
 	gz = gyr.z * RAD;
 
-	acc_read_raw(&acce);
+	mpu6050_acc_get_raw(&acce);
 	acc_Bframe[X] = (float)acce.x;
 	acc_Bframe[Y] = (float)acce.y;
 	acc_Bframe[Z] = (float)acce.z;
@@ -263,7 +261,12 @@ void ahrs_update(){
 	q1 *= norm;
 	q2 *= norm;
 	q3 *= norm;
-
+	
+	q_t.q0 = q0;
+	q_t.q1 = q1;
+	q_t.q2 = q2;
+	q_t.q3 = q3;
+	
 	float q0q1 = q0*q1;
 	float q0q2 = q0*q2;
 	float q0q3 = q0*q3;
@@ -273,46 +276,62 @@ void ahrs_update(){
 	float q2q2 = q2*q2;
 	float q2q3 = q2*q3;
 	float q3q3 = q3*q3;
-    // Quaternion to Rotation matrix
-    dcm[0][0] = 2.0f*(0.5f - q2q2  - q3q3);
-    dcm[1][0] = 2.0f*(q1q2 - q0q3);
-    dcm[2][0] = 2.0f*(q1q3 + q0q2);
-    dcm[0][1] = 2.0f*(q1q2 + q0q3);
-    dcm[1][1] = 2.0f*(0.5f - q1q1 - q3q3);
-    dcm[2][1] = 2.0f*(q2q3 - q0q1);
-    dcm[0][2] = 2.0f*(q1q3 - q0q2);
-    dcm[1][2] = 2.0f*(q2q3 + q0q1);
-    dcm[2][2] = 2.0f*(0.5f - q1q1 - q2q2);
+	// Quaternion to Rotation matrix
+	dcm[0][0] = 2.0f*(0.5f - q2q2  - q3q3);
+	dcm[1][0] = 2.0f*(q1q2 - q0q3);
+	dcm[2][0] = 2.0f*(q1q3 + q0q2);
+	dcm[0][1] = 2.0f*(q1q2 + q0q3);
+	dcm[1][1] = 2.0f*(0.5f - q1q1 - q3q3);
+	dcm[2][1] = 2.0f*(q2q3 - q0q1);
+	dcm[0][2] = 2.0f*(q1q3 - q0q2);
+	dcm[1][2] = 2.0f*(q2q3 + q0q1);
+	dcm[2][2] = 2.0f*(0.5f - q1q1 - q2q2);
     // Rotate acceleration from Body frame to earth frame
 	acc_Eframe[X] = dcm[0][0]*acc_Bframe[X] + dcm[1][0]*acc_Bframe[Y] + dcm[2][0]*acc_Bframe[Z];
 	acc_Eframe[Y] = dcm[0][1]*acc_Bframe[X] + dcm[1][1]*acc_Bframe[Y] + dcm[2][1]*acc_Bframe[Z];
 	acc_Eframe[Z] = dcm[0][2]*acc_Bframe[X] + dcm[1][2]*acc_Bframe[Y] + dcm[2][2]*acc_Bframe[Z];
-	float accTrueScale = 9.8f/2048.0f;
+	const float accTrueScale = 9.8f/2048.0f;
 	acc_Eframe[X] = acc_Eframe[X]*accTrueScale;
 	acc_Eframe[Y] = acc_Eframe[Y]*accTrueScale;
 	acc_Eframe[Z] = acc_Eframe[Z]*accTrueScale;
     // Quaternion to euler angle    // deg
-	AHRS.roll  = atan2_approx(-dcm[0][2],sqrtf(1 - dcm[0][2]*dcm[0][2])) * DEG;
-	AHRS.pitch = atan2_approx(-dcm[1][2],dcm[2][2]) * DEG;
-	AHRS.yaw   = atan2_approx(dcm[0][1],dcm[0][0]) * DEG;
-	AHRS.acc_x = acc_Eframe[X];//fapplyDeadband(acc_Eframe[X],0.05);  // dead band 0.05 m/ss
-	 static float input_filter;
-	static float filted_data;
-	const float A = 0.3f;
-	const float B = 2.0f;
-	input_filter = acc_Eframe[Y];
-	// Apply low pass filter
-	if((input_filter - filted_data) < -A | (input_filter - filted_data) > A)
-	{
-      filted_data = filted_data*0.6f + 0.4f*input_filter;
-	}
-	// Origin value
-	else{
-		filted_data = input_filter;
-	}
-  AHRS.acc_y = filted_data;//fapplyDeadband(acc_Eframe[Y],0.05);
-   
-    //p_a = a;
+	float roll_,pitch_,yaw_;  
+	roll_  = atan2_approx(-dcm[0][2],sqrtf(1 - dcm[0][2]*dcm[0][2]));  // rad/s
+	pitch_ = atan2_approx(-dcm[1][2],dcm[2][2]);  // rad/s
+	yaw_  = atan2_approx(dcm[0][1],dcm[0][0]);    // rad/s
+	  
+	float sinr = sin(roll_);
+	float sinp = sin(pitch_);
+    float cosr = cos(roll_);
+	float cosp = cos(pitch_);
+	// angular velocity to euler rate
+	float roll_rate =  gyr.x + sinr*sinp/cosp*gyr.y + cosr*sinp/cosp*gyr.z;
+	float pitch_rate =  cosr*gyr.y - sinr*gyr.z;
+	float yaw_rate =   sinr/cosp*gyr.y + cosr/cosp*gyr.z;
+	
+	AHRS.roll  = roll_rate;
+	AHRS.pitch = pitch_rate;
+	AHRS.yaw   = yaw_rate;
+	
+	roll_rate  *= RAD;
+	pitch_rate *= RAD;
+	yaw_rate   *= RAD;
+	
+	q_.q0 += (-q_.q1 * roll_rate - q_.q2 * pitch_rate - q_.q3 * yaw_rate);
+	q_.q1 += ( q_.q0 * gx + q_.q2 * yaw_rate - q_.q3 * pitch_rate);
+	q_.q2 += ( q_.q0 * pitch_rate - q_.q1 * yaw_rate + q_.q3 * roll_rate);
+	q_.q3 += ( q_.q0 * yaw_rate + q_.q1 * pitch_rate - q_.q2 * roll_rate);
+	
+	norm = invSqrt_(q_.q0 * q_.q0 + q_.q1 * q_.q1 + q_.q2 * q_.q2 + q_.q3 * q_.q3);
+	q_.q0 *= norm;
+	q_.q1 *= norm;
+	q_.q2 *= norm;
+	q_.q3 *= norm;
+	/*
+	AHRS.roll  = roll_ * DEG;
+	AHRS.pitch = pitch_ * DEG;
+	AHRS.yaw   = yaw_ * DEG;
+  */
 	AHRS.roll_rate  = gyr.x;    // deg/s
 	AHRS.pitch_rate = gyr.y;
 	AHRS.yaw_rate   = gyr.z;
