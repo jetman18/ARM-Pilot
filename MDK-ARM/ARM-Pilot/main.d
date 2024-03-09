@@ -7,9 +7,9 @@ arm-pilot/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
   ..\Drivers\CMSIS\Device\ST\STM32F1xx\Include\stm32f103xb.h \
   ..\Drivers\CMSIS\Include\core_cm3.h \
   C:\Keil_v5\ARM\ARMCLANG\include\stdint.h \
-  C:\Users\tuan\Documents\GitHub\ARM-Pilot\Drivers\CMSIS\Include\cmsis_version.h \
-  C:\Users\tuan\Documents\GitHub\ARM-Pilot\Drivers\CMSIS\Include\cmsis_compiler.h \
-  C:\Users\tuan\Documents\GitHub\ARM-Pilot\Drivers\CMSIS\Include\cmsis_armclang.h \
+  C:\Users\tuan\Documents\Stmproject\ARM-pilot\Drivers\CMSIS\Include\cmsis_version.h \
+  C:\Users\tuan\Documents\Stmproject\ARM-pilot\Drivers\CMSIS\Include\cmsis_compiler.h \
+  C:\Users\tuan\Documents\Stmproject\ARM-pilot\Drivers\CMSIS\Include\cmsis_armclang.h \
   C:\Keil_v5\ARM\ARMCLANG\include\arm_compat.h \
   C:\Keil_v5\ARM\ARMCLANG\include\arm_acle.h \
   ..\Drivers\CMSIS\Device\ST\STM32F1xx\Include\system_stm32f1xx.h \
@@ -37,4 +37,5 @@ arm-pilot/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
   ..\Middlewares\Third_Party\FatFs\src\diskio.h \
   ..\FATFS\Target\user_diskio.h ..\Core\Inc\i2c.h ..\Core\Inc\spi.h \
   ..\Core\Inc\tim.h ..\Core\Inc\usart.h ..\Core\Inc\gpio.h \
-  ..\Core\flight\plane.h ..\Core\Lib\sensordetect.h
+  ..\Core\flight\plane.h ..\Core\Lib\timer.h \
+  C:\Keil_v5\ARM\ARMCLANG\include\stdio.h

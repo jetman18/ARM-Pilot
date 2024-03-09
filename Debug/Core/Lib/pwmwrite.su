@@ -1,6 +1,0 @@
-../Core/Lib/maths.h:157:19:constrain	24	static
-../Core/Lib/pwmwrite.c:13:6:initPWM	16	static
-../Core/Lib/pwmwrite.c:22:6:initOneshot125	16	static
-../Core/Lib/pwmwrite.c:31:6:writePwm	16	static
-../Core/Lib/pwmwrite.c:36:6:writeOneshot125	16	static
-../Core/Lib/pwmwrite.c:41:6:motoIdle	4	static

@@ -1,8 +1,0 @@
-../Core/Driver/ibus.c:34:6:ibusInit	16	static
-../Core/Driver/ibus.c:40:6:ibusGet	8	static
-../Core/Driver/ibus.c:54:6:ibusDataReceive	24	static
-../Core/Driver/ibus.c:81:5:ibusFrameComplete	16	static
-../Core/Driver/ibus.c:111:10:ibusReadRawRC	16	static
-../Core/Driver/ibus.c:114:7:ibusReadf	24	static
-../Core/Driver/ibus.c:119:10:getReadTime	4	static
-../Core/Driver/ibus.c:123:6:ibusCallback	8	static

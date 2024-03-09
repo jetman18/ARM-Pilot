@@ -12,63 +12,74 @@
 #include "gps.h"
 #include "imu.h"
 #include "timer.h"
+#include "utils.h"
 
 #include "mpu6050.h"
 #include "ms5611.h"
-#include "qmc5883.h"
+#include "hmc5883.h"
 #include "interrupthandler.h"
+#include "sensordetect.h"
+#include "blackbox.h"
 
-#define LOOP_US  4000
-static uint32_t mil;
+// Loop init variable
+#define LOOP_US  4000      // 250 Hz
 uint32_t max_excution_time_us;
 uint32_t num_tasks;
 uint16_t F_loop;
-void tongepin(){
+static uint32_t time_us;
+// Loop init variable
+
+/*
+ * Test function blink led pc13
+ */
+static void tongepin()
+{
 	HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
 }
+
 task_t task[]={ 
-   // {ahrs_update,      0,0,0,1}, /*  imu task 500 hz*/
+  // {ahrs_update,      0,0,0,1}, /*  imu task 250 hz*/
+	
+  //{pidUpdate,       0,0,0,1},/*  pid task  250 hz*/
 
-  //{pidUpdate,       0,0,0,1},/*  pid task  500 hz*/
+   {hmc_get_raw,         0,0,0,3},/*  pid task  250/3 hz*/
 
-  //{ms5611_start,         0,0,0,2},/*  pid task  5 hz*/
-
-  //{pwm2esc,         0,0,0,1},/*  esc task  500 hz*/
-   {tongepin,         0,0,0,250}
+  //{pwm2esc,         0,0,0,1},   /*  esc task  250 hz*/
+   {tongepin,         0,0,0,250}  /*  esc task  250/250 hz*/
   //{ibusGet,         0,0,0,10},/*  receiver task  50 hz*/
 };
 
 void init_scheduler(){
+    // init backbox for logging data
+  if(black_box_init()){
+      // init error
+      //HAL_GPIO_WritePin(GPIOX,GPIO_PIN_X,SET);
+  }
 
-	//ms5611_init(&hi2c2);
-	timer_start(&htim4);
-	//initPWM(&htim3);
-    //ibusInit(&huart2,115200);
-	//mavlinkInit(SYS_ID,0,&huart2,115200);
-	//motoIdle();
-	//qmc5883_init(&hi2c1);
-    //bmp280_init();
-	//blackboxInit();
-	/*
-	int8_t connect = mpu6050_init(&hi2c2);
-	if(connect){
-	   while(1){
-		   HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-		   HAL_Delay(100);
-	   }
-	mpu_calibrate();
-	}
+   // hardwave init
+   timer_start(&htim4); 
+   initPWM(&htim3);    // for pwm
 	
-	*/
-	num_tasks = 0;
+
+  // sensor init
+  mpu6050_init(&hi2c2); 
+  imuCalibrate();
+  hmc5883_init(&hi2c2);
+  i2cDectect(&hi2c2);
+
+  //ms5611_init(&hi2c2); // inti ms5611
+  //gpsInit(&huart1,57600);
+
+
+  /* scheduler parameters */
+	num_tasks = zeroSet();
+    max_excution_time_us = zeroSet();
 	num_tasks  = sizeof(task)/sizeof(task_t);
-	max_excution_time_us = 0;
 	F_loop = 1/(LOOP_US*(1e-6f));
 }
 
-uint32_t time_us;
-void start_scheduler() {
 
+void start_scheduler() {
   static int counter = 0;
   uint32_t time_1;
   uint32_t total_execution_time_us = 0;

@@ -17,8 +17,8 @@ extern TIM_HandleTypeDef *htimmz;
 static volatile uint32_t micross;
 #define HZ_TO_MICRO(hz)  (uint32_t)(((1.0f)/(hz))*1000000UL)
 #define TIMER_CALLBACK() (micross += 65535UL)
-#define micros() (uint32_t)((micross) + (__HAL_TIM_GET_COUNTER(htimmz)))
-#define millis()  (uint32_t)(micross/1000UL)
+uint32_t micros();
+uint32_t millis();
 void timer_start(TIM_HandleTypeDef *htimz);
 void delay_ms(uint32_t val);
 void delay_us(uint32_t val);

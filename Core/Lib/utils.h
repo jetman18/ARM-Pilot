@@ -36,4 +36,8 @@ static float range180(float val){
     return val;
 }
 
+static int zeroSet(){
+    return 0L;
+}
+
 #endif

@@ -1,7 +1,6 @@
 #include "pwmwrite.h"
 #include "tim.h"
 #include "maths.h"
-#include "pid.h"
 
 #define PWM_RELOAD_AFFTER 2200     // 2200 US
 #define ONESHOT_RELOAD_AFFTER 400  //400 US  2500HZ

@@ -6,7 +6,7 @@
   ******************************************************************************
   * @attention
   *
-  * Copyright (c) 2023 STMicroelectronics.
+  * Copyright (c) 2024 STMicroelectronics.
   * All rights reserved.
   *
   * This software is licensed under terms that can be found in the LICENSE file
@@ -24,11 +24,10 @@
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
-
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "plane.h"
-#include "sensordetect.h"
+#include "timer.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -38,6 +37,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -59,6 +59,12 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+/*
+uint32_t HAL_GetTick(void)
+{
+  return micros();
+}
+*/
 
 /* USER CODE END 0 */
 
@@ -91,16 +97,20 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_I2C1_Init();
+  MX_TIM4_Init();
   MX_USART1_UART_Init();
   MX_USART2_UART_Init();
-  MX_TIM3_Init();
-  MX_TIM4_Init();
-  MX_SPI2_Init();
-  MX_I2C2_Init();
   MX_FATFS_Init();
+  MX_I2C2_Init();
+  MX_SPI2_Init();
+  MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
-  //i2cDectect(&hi2c1);
-  // main_loop();
+
+/* USER CODE END PD */
+
+  /* USER CODE BEGIN 2 */
+ 
+  main_loop();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -110,6 +120,9 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+
+	  
+ // start_scheduler();
   }
   /* USER CODE END 3 */
 }

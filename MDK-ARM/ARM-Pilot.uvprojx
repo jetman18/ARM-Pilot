@@ -7,7 +7,7 @@
 
   <Targets>
     <Target>
-      <TargetName>ARM-Pilot</TargetName>
+      <TargetName>ARM-pilot</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
       <pCCUsed>6210000::V6.21::ARMCLANG</pCCUsed>
@@ -48,8 +48,8 @@
             <NotGenerated>0</NotGenerated>
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
-          <OutputDirectory>ARM-Pilot\</OutputDirectory>
-          <OutputName>ARM-Pilot</OutputName>
+          <OutputDirectory>ARM-pilot\</OutputDirectory>
+          <OutputName>ARM-pilot</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>1</CreateHexFile>
@@ -314,7 +314,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>4</Optim>
+            <Optim>0</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
@@ -340,7 +340,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F103xB</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F1xx/Include;../Drivers/CMSIS/Include;../Core/Lib;../Core/sensor;../Core/flight;../Core/Sdcard;../Core/mavlink;../Drivers;../Core/mavlink/common;../FATFS/Target;../FATFS/App;../Middlewares/Third_Party/FatFs/src</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F1xx/Include;../Drivers/CMSIS/Include;../Core/flight;../Core/Lib;../Core/Driver;../Core/mavlink;../Core/mavlink/common;../FATFS/Target;../FATFS/App;../Middlewares/Third_Party/FatFs/src;../Core/Sdcard</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -383,114 +383,11 @@
       <Groups>
         <Group>
           <GroupName>Application/MDK-ARM</GroupName>
-        </Group>
-        <Group>
-          <GroupName>flight</GroupName>
           <Files>
             <File>
-              <FileName>attitudeController.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Core\flight\attitudeController.c</FilePath>
-            </File>
-            <File>
-              <FileName>blackbox.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Core\flight\blackbox.c</FilePath>
-            </File>
-            <File>
-              <FileName>Ekf.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Core\flight\Ekf.c</FilePath>
-            </File>
-            <File>
-              <FileName>interrupthandler.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Core\flight\interrupthandler.h</FilePath>
-            </File>
-            <File>
-              <FileName>mavlink_handler.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Core\flight\mavlink_handler.c</FilePath>
-            </File>
-            <File>
-              <FileName>navigation.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Core\flight\navigation.c</FilePath>
-            </File>
-            <File>
-              <FileName>plane.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Core\flight\plane.c</FilePath>
-            </File>
-            <File>
-              <FileName>plane.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Core\flight\plane.h</FilePath>
-            </File>
-            <File>
-              <FileName>scheduler.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Core\flight\scheduler.c</FilePath>
-            </File>
-            <File>
-              <FileName>scheduler.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Core\flight\scheduler.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>Sensor</GroupName>
-          <Files>
-            <File>
-              <FileName>bmp280.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Core\sensor\bmp280.c</FilePath>
-            </File>
-            <File>
-              <FileName>bmp280.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Core\sensor\bmp280.h</FilePath>
-            </File>
-            <File>
-              <FileName>ibus.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Core\sensor\ibus.c</FilePath>
-            </File>
-            <File>
-              <FileName>ibus.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Core\sensor\ibus.h</FilePath>
-            </File>
-            <File>
-              <FileName>mpu6050.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Core\sensor\mpu6050.c</FilePath>
-            </File>
-            <File>
-              <FileName>mpu6050.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Core\sensor\mpu6050.h</FilePath>
-            </File>
-            <File>
-              <FileName>ms5611.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Core\sensor\ms5611.c</FilePath>
-            </File>
-            <File>
-              <FileName>ms5611.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Core\sensor\ms5611.h</FilePath>
-            </File>
-            <File>
-              <FileName>qmc5883.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Core\sensor\qmc5883.c</FilePath>
-            </File>
-            <File>
-              <FileName>qmc5883.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Core\sensor\qmc5883.h</FilePath>
+              <FileName>startup_stm32f103xb.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>startup_stm32f103xb.s</FilePath>
             </File>
           </Files>
         </Group>
@@ -516,6 +413,57 @@
               <FileName>spi.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Core/Src/spi.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>2</AlwaysBuild>
+                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
+                  <PublicsOnly>2</PublicsOnly>
+                  <StopOnExitCode>11</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>0</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <uGnu>2</uGnu>
+                    <useXO>2</useXO>
+                    <v6Lang>0</v6Lang>
+                    <v6LangP>0</v6LangP>
+                    <vShortEn>2</vShortEn>
+                    <vShortWch>2</vShortWch>
+                    <v6Lto>2</v6Lto>
+                    <v6WtE>2</v6WtE>
+                    <v6Rtti>2</v6Rtti>
+                    <VariousControls>
+                      <MiscControls></MiscControls>
+                      <Define></Define>
+                      <Undefine></Undefine>
+                      <IncludePath></IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
             </File>
             <File>
               <FileName>tim.c</FileName>
@@ -606,6 +554,57 @@
               <FileName>stm32f1xx_hal_spi.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_spi.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>2</AlwaysBuild>
+                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
+                  <PublicsOnly>2</PublicsOnly>
+                  <StopOnExitCode>11</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>0</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <uGnu>2</uGnu>
+                    <useXO>2</useXO>
+                    <v6Lang>0</v6Lang>
+                    <v6LangP>0</v6LangP>
+                    <vShortEn>2</vShortEn>
+                    <vShortWch>2</vShortWch>
+                    <v6Lto>2</v6Lto>
+                    <v6WtE>2</v6WtE>
+                    <v6Rtti>2</v6Rtti>
+                    <VariousControls>
+                      <MiscControls></MiscControls>
+                      <Define></Define>
+                      <Undefine></Undefine>
+                      <IncludePath></IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
             </File>
             <File>
               <FileName>stm32f1xx_hal_tim.c</FileName>
@@ -626,6 +625,73 @@
         </Group>
         <Group>
           <GroupName>Drivers/CMSIS</GroupName>
+          <Files>
+            <File>
+              <FileName>system_stm32f1xx.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Core/Src/system_stm32f1xx.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Driver</GroupName>
+          <Files>
+            <File>
+              <FileName>bmp280.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Driver\bmp280.c</FilePath>
+            </File>
+            <File>
+              <FileName>bmp280.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Core\Driver\bmp280.h</FilePath>
+            </File>
+            <File>
+              <FileName>ibus.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Driver\ibus.c</FilePath>
+            </File>
+            <File>
+              <FileName>ibus.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Core\Driver\ibus.h</FilePath>
+            </File>
+            <File>
+              <FileName>ms5611.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Driver\ms5611.c</FilePath>
+            </File>
+            <File>
+              <FileName>ms5611.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Core\Driver\ms5611.h</FilePath>
+            </File>
+            <File>
+              <FileName>mpu6050.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Driver\mpu6050.c</FilePath>
+            </File>
+            <File>
+              <FileName>mpu6050.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Core\Driver\mpu6050.h</FilePath>
+            </File>
+            <File>
+              <FileName>hmc5883.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Driver\hmc5883.c</FilePath>
+            </File>
+            <File>
+              <FileName>hmc5883.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Core\Driver\hmc5883.h</FilePath>
+            </File>
+            <File>
+              <FileName>interrupthandler.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Core\Driver\interrupthandler.h</FilePath>
+            </File>
+          </Files>
         </Group>
         <Group>
           <GroupName>Lib</GroupName>
@@ -735,36 +801,71 @@
               <FileType>5</FileType>
               <FilePath>..\Core\Lib\utils.h</FilePath>
             </File>
+            <File>
+              <FileName>blackbox.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Lib\blackbox.c</FilePath>
+            </File>
+            <File>
+              <FileName>blackbox.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Core\Lib\blackbox.h</FilePath>
+            </File>
+            <File>
+              <FileName>sensordetect.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Lib\sensordetect.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Flight</GroupName>
+          <Files>
+            <File>
+              <FileName>controller.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\flight\controller.c</FilePath>
+            </File>
+            <File>
+              <FileName>estimate.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\flight\estimate.c</FilePath>
+            </File>
+            <File>
+              <FileName>mavlink_handler.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\flight\mavlink_handler.c</FilePath>
+            </File>
+            <File>
+              <FileName>navigation.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\flight\navigation.c</FilePath>
+            </File>
+            <File>
+              <FileName>scheduler.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\flight\scheduler.c</FilePath>
+            </File>
+            <File>
+              <FileName>scheduler.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Core\flight\scheduler.h</FilePath>
+            </File>
+            <File>
+              <FileName>plane.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\flight\plane.c</FilePath>
+            </File>
+            <File>
+              <FileName>plane.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Core\flight\plane.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
           <GroupName>mavlink</GroupName>
           <Files>
-            <File>
-              <FileName>checksum.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Core\mavlink\checksum.h</FilePath>
-            </File>
-            <File>
-              <FileName>mavlink_conversions.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Core\mavlink\mavlink_conversions.h</FilePath>
-            </File>
-            <File>
-              <FileName>mavlink_helpers.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Core\mavlink\mavlink_helpers.h</FilePath>
-            </File>
-            <File>
-              <FileName>mavlink_types.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Core\mavlink\mavlink_types.h</FilePath>
-            </File>
-            <File>
-              <FileName>protocol.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Core\mavlink\protocol.h</FilePath>
-            </File>
             <File>
               <FileName>common.h</FileName>
               <FileType>5</FileType>
@@ -1364,6 +1465,36 @@
               <FileName>version.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Core\mavlink\common\version.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>mavlink_helper</GroupName>
+          <Files>
+            <File>
+              <FileName>checksum.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Core\mavlink\checksum.h</FilePath>
+            </File>
+            <File>
+              <FileName>mavlink_conversions.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Core\mavlink\mavlink_conversions.h</FilePath>
+            </File>
+            <File>
+              <FileName>mavlink_helpers.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Core\mavlink\mavlink_helpers.h</FilePath>
+            </File>
+            <File>
+              <FileName>mavlink_types.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Core\mavlink\mavlink_types.h</FilePath>
+            </File>
+            <File>
+              <FileName>protocol.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Core\mavlink\protocol.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -1982,7 +2113,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>sdcard</GroupName>
+          <GroupName>Sdcard</GroupName>
           <Files>
             <File>
               <FileName>fatfs_sd.c</FileName>
@@ -1999,9 +2130,6 @@
         <Group>
           <GroupName>::CMSIS</GroupName>
         </Group>
-        <Group>
-          <GroupName>::Device</GroupName>
-        </Group>
       </Groups>
     </Target>
   </Targets>
@@ -2012,48 +2140,17 @@
       <component Cclass="CMSIS" Cgroup="CORE" Cvendor="ARM" Cversion="5.6.0" condition="ARMv6_7_8-M Device">
         <package name="CMSIS" schemaVersion="1.7.7" url="http://www.keil.com/pack/" vendor="ARM" version="5.9.0"/>
         <targetInfos>
-          <targetInfo name="ARM-Pilot"/>
-        </targetInfos>
-      </component>
-      <component Cclass="Device" Cgroup="Startup" Cvendor="Keil" Cversion="1.0.0" condition="STM32F1xx CMSIS">
-        <package name="STM32F1xx_DFP" schemaVersion="1.7.2" url="https://www.keil.com/pack/" vendor="Keil" version="2.4.1"/>
-        <targetInfos>
-          <targetInfo name="ARM-Pilot"/>
+          <targetInfo name="ARM-pilot"/>
         </targetInfos>
       </component>
     </components>
-    <files>
-      <file attr="config" category="header" name="RTE_Driver\Config\RTE_Device.h" version="1.1.2">
-        <instance index="0">RTE\Device\STM32F103C8\RTE_Device.h</instance>
-        <component Cclass="Device" Cgroup="Startup" Cvendor="Keil" Cversion="1.0.0" condition="STM32F1xx CMSIS"/>
-        <package name="STM32F1xx_DFP" schemaVersion="1.7.2" url="https://www.keil.com/pack/" vendor="Keil" version="2.4.1"/>
-        <targetInfos>
-          <targetInfo name="ARM-Pilot"/>
-        </targetInfos>
-      </file>
-      <file attr="config" category="source" condition="STM32F1xx MD ARMCC" name="Device\Source\ARM\startup_stm32f10x_md.s" version="1.0.1">
-        <instance index="0">RTE\Device\STM32F103C8\startup_stm32f10x_md.s</instance>
-        <component Cclass="Device" Cgroup="Startup" Cvendor="Keil" Cversion="1.0.0" condition="STM32F1xx CMSIS"/>
-        <package name="STM32F1xx_DFP" schemaVersion="1.7.2" url="https://www.keil.com/pack/" vendor="Keil" version="2.4.1"/>
-        <targetInfos>
-          <targetInfo name="ARM-Pilot"/>
-        </targetInfos>
-      </file>
-      <file attr="config" category="source" name="Device\Source\system_stm32f10x.c" version="1.0.1">
-        <instance index="0">RTE\Device\STM32F103C8\system_stm32f10x.c</instance>
-        <component Cclass="Device" Cgroup="Startup" Cvendor="Keil" Cversion="1.0.0" condition="STM32F1xx CMSIS"/>
-        <package name="STM32F1xx_DFP" schemaVersion="1.7.2" url="https://www.keil.com/pack/" vendor="Keil" version="2.4.1"/>
-        <targetInfos>
-          <targetInfo name="ARM-Pilot"/>
-        </targetInfos>
-      </file>
-    </files>
+    <files/>
   </RTE>
 
   <LayerInfo>
     <Layers>
       <Layer>
-        <LayName>ARM-Pilot</LayName>
+        <LayName>ARM-pilot</LayName>
         <LayPrjMark>1</LayPrjMark>
       </Layer>
     </Layers>

@@ -50,7 +50,7 @@ void mavlink_send(){
 	if(isTxcpl){
 		uint32_t boot_time = millis();
 		mavlink_message_t msg_send;
-		mavlink_msg_named_value_float_pack(sys_id,com_id,&msg_send,boot_time,(const char *)name,quad_.roll);
+		//mavlink_msg_named_value_float_pack(sys_id,com_id,&msg_send,boot_time,(const char *)name,quad_.roll);
 		int len = mavlink_msg_to_send_buffer((uint8_t *)&buffer[index_],&msg_send);
 		HAL_UART_Transmit_DMA(uart,buffer,len);
 		isTxcpl = 0;

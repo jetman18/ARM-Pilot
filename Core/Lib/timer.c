@@ -7,7 +7,8 @@ bootTime_t boottime;
 static uint16_t setoverFlow(int val,int flow_val);
 
 
-void delay_us(uint32_t val){
+void delay_us(uint32_t val)
+{
 	static uint32_t time_us;
   time_us = micros();
   while((micros() - time_us)<val);
@@ -23,6 +24,16 @@ static uint16_t setoverFlow(int val,int flow_val){
     k = val/l;
     k = val - (l*k);
     return k;
+}
+
+uint32_t micros()
+{
+    return (uint32_t)((micross) + (__HAL_TIM_GET_COUNTER(htimmz)));
+}
+
+uint32_t millis()
+{
+   return (uint32_t)( micros() / 1000);
 }
 
 void time_inf(){

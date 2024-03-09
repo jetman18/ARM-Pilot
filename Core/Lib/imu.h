@@ -53,14 +53,9 @@ typedef struct{
     uint32_t dt;
     float gyr_lsb;
 }imu_config_t;
-
-extern attitude_t quad_;
-extern imu_config_t config;
-extern float dcm[3][3];
 extern attitude_t AHRS;
 void ahrs_update();
-void mpu_calibrate();
-void gyro_read(faxis3_t *angle);
+void imuCalibrate();
 #ifdef __cplusplus
 }
 #endif

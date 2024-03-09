@@ -1,6 +1,12 @@
 {
+    "editor.fontSize": 14,
+    "window.zoomLevel": 0,
     "C_Cpp.errorSquiggles": "disabled",
     "files.associations": {
-        "lib.h": "c"
+        "limits": "c",
+        "timer.h": "c",
+        "stm32f1xx_hal.h": "c",
+        "i2c.h": "c",
+        "sensordetect.h": "c"
     }
 }

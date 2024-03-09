@@ -1,3 +1,0 @@
-../Core/Lib/maths.h:167:21:constrainf	24	static
-../Core/Lib/pid.c:7:6:pidCalculate	56	static
-../Core/Lib/pid.c:32:6:resetPID	16	static

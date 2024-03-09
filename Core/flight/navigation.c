@@ -3,11 +3,12 @@
 #include "utils.h"
 #include "timer.h"
 #include "plane.h"
+
 #define toDEG (180/3.14159265359f)
 #define toRAD (3.14159265359f/180)
 #define  EARTH_RADIUS  6356752  //m
 #define MAX_WAYPOINT 30
-#define STICK_CHECK(x)  ((x > 1600) ? 1 : 0)
+#define STICK_CHECK(x)  ((x > 1600)?1:0)
 
 #define CRICLE_RADIUS 100  // m
 

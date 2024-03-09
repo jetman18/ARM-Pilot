@@ -3,8 +3,8 @@
  * Auto generated Run-Time-Environment Configuration File
  *      *** Do not modify ! ***
  *
- * Project: 'ARM-Pilot' 
- * Target:  'ARM-Pilot' 
+ * Project: 'ARM-pilot' 
+ * Target:  'ARM-pilot' 
  */
 
 #ifndef RTE_COMPONENTS_H

@@ -1,5 +1,0 @@
-../Core/Lib/log.c:9:13:reverse	32	static
-../Core/Lib/log.c:20:12:intToStr	24	static
-../Core/Lib/log.c:35:6:print_float	16	static
-../Core/Lib/log.c:40:5:write_char	24	static
-../Core/Lib/log.c:47:5:writeln_int	32	static

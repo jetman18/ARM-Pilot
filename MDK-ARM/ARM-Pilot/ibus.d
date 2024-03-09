@@ -1,7 +1,7 @@
-arm-pilot/ibus.o: ..\Core\sensor\ibus.c ..\Core\sensor\..\lib\maths.h \
+arm-pilot/ibus.o: ..\Core\Driver\ibus.c ..\Core\Driver\..\lib\maths.h \
   C:\Keil_v5\ARM\ARMCLANG\include\stdlib.h \
   C:\Keil_v5\ARM\ARMCLANG\include\stdint.h \
-  C:\Keil_v5\ARM\ARMCLANG\include\math.h ..\Core\sensor\ibus.h \
+  C:\Keil_v5\ARM\ARMCLANG\include\math.h ..\Core\Driver\ibus.h \
   ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal.h \
   ..\Core\Inc\stm32f1xx_hal_conf.h \
   ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_rcc.h \
@@ -9,9 +9,9 @@ arm-pilot/ibus.o: ..\Core\sensor\ibus.c ..\Core\sensor\..\lib\maths.h \
   ..\Drivers\CMSIS\Device\ST\STM32F1xx\Include\stm32f1xx.h \
   ..\Drivers\CMSIS\Device\ST\STM32F1xx\Include\stm32f103xb.h \
   ..\Drivers\CMSIS\Include\core_cm3.h \
-  C:\Users\tuan\Documents\GitHub\ARM-Pilot\Drivers\CMSIS\Include\cmsis_version.h \
-  C:\Users\tuan\Documents\GitHub\ARM-Pilot\Drivers\CMSIS\Include\cmsis_compiler.h \
-  C:\Users\tuan\Documents\GitHub\ARM-Pilot\Drivers\CMSIS\Include\cmsis_armclang.h \
+  C:\Users\tuan\Documents\Stmproject\ARM-pilot\Drivers\CMSIS\Include\cmsis_version.h \
+  C:\Users\tuan\Documents\Stmproject\ARM-pilot\Drivers\CMSIS\Include\cmsis_compiler.h \
+  C:\Users\tuan\Documents\Stmproject\ARM-pilot\Drivers\CMSIS\Include\cmsis_armclang.h \
   C:\Keil_v5\ARM\ARMCLANG\include\arm_compat.h \
   C:\Keil_v5\ARM\ARMCLANG\include\arm_acle.h \
   ..\Drivers\CMSIS\Device\ST\STM32F1xx\Include\system_stm32f1xx.h \
@@ -32,5 +32,5 @@ arm-pilot/ibus.o: ..\Core\sensor\ibus.c ..\Core\sensor\..\lib\maths.h \
   ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_tim.h \
   ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_tim_ex.h \
   ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_uart.h \
-  ..\Core\sensor\..\lib\timer.h C:\Keil_v5\ARM\ARMCLANG\include\stdio.h \
-  ..\Core\sensor\..\lib\imu.h ..\Core\sensor\..\lib\axis.h
+  ..\Core\Driver\..\lib\timer.h C:\Keil_v5\ARM\ARMCLANG\include\stdio.h \
+  ..\Core\Driver\..\lib\imu.h ..\Core\Driver\..\lib\axis.h

@@ -1,4 +1,7 @@
-arm-pilot/blackbox.o: ..\Core\flight\blackbox.c ..\Core\flight\plane.h \
+arm-pilot/blackbox.o: ..\Core\Lib\blackbox.c ..\FATFS\App\fatfs.h \
+  ..\Middlewares\Third_Party\FatFs\src\ff.h \
+  ..\Middlewares\Third_Party\FatFs\src\integer.h \
+  ..\FATFS\Target\ffconf.h ..\Core\Inc\main.h \
   ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal.h \
   ..\Core\Inc\stm32f1xx_hal_conf.h \
   ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_rcc.h \
@@ -7,9 +10,9 @@ arm-pilot/blackbox.o: ..\Core\flight\blackbox.c ..\Core\flight\plane.h \
   ..\Drivers\CMSIS\Device\ST\STM32F1xx\Include\stm32f103xb.h \
   ..\Drivers\CMSIS\Include\core_cm3.h \
   C:\Keil_v5\ARM\ARMCLANG\include\stdint.h \
-  C:\Users\tuan\Documents\GitHub\ARM-Pilot\Drivers\CMSIS\Include\cmsis_version.h \
-  C:\Users\tuan\Documents\GitHub\ARM-Pilot\Drivers\CMSIS\Include\cmsis_compiler.h \
-  C:\Users\tuan\Documents\GitHub\ARM-Pilot\Drivers\CMSIS\Include\cmsis_armclang.h \
+  C:\Users\tuan\Documents\Stmproject\ARM-pilot\Drivers\CMSIS\Include\cmsis_version.h \
+  C:\Users\tuan\Documents\Stmproject\ARM-pilot\Drivers\CMSIS\Include\cmsis_compiler.h \
+  C:\Users\tuan\Documents\Stmproject\ARM-pilot\Drivers\CMSIS\Include\cmsis_armclang.h \
   C:\Keil_v5\ARM\ARMCLANG\include\arm_compat.h \
   C:\Keil_v5\ARM\ARMCLANG\include\arm_acle.h \
   ..\Drivers\CMSIS\Device\ST\STM32F1xx\Include\system_stm32f1xx.h \
@@ -30,9 +33,8 @@ arm-pilot/blackbox.o: ..\Core\flight\blackbox.c ..\Core\flight\plane.h \
   ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_tim.h \
   ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_tim_ex.h \
   ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_uart.h \
-  ..\Core\Sdcard\fatfs_sd.h \
+  ..\Middlewares\Third_Party\FatFs\src\ff_gen_drv.h \
   ..\Middlewares\Third_Party\FatFs\src\diskio.h \
-  ..\Middlewares\Third_Party\FatFs\src\integer.h ..\FATFS\App\fatfs.h \
-  ..\Middlewares\Third_Party\FatFs\src\ff.h ..\FATFS\Target\ffconf.h \
-  ..\Core\Inc\main.h ..\Middlewares\Third_Party\FatFs\src\ff_gen_drv.h \
-  ..\FATFS\Target\user_diskio.h
+  ..\FATFS\Target\user_diskio.h C:\Keil_v5\ARM\ARMCLANG\include\string.h \
+  ..\Core\Lib\timer.h C:\Keil_v5\ARM\ARMCLANG\include\stdio.h \
+  ..\Core\Lib\utils.h ..\Core\Lib\blackbox.h

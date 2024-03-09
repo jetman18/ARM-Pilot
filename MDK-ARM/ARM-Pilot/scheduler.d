@@ -7,9 +7,9 @@ arm-pilot/scheduler.o: ..\Core\flight\scheduler.c ..\Core\Inc\usart.h \
   ..\Drivers\CMSIS\Device\ST\STM32F1xx\Include\stm32f103xb.h \
   ..\Drivers\CMSIS\Include\core_cm3.h \
   C:\Keil_v5\ARM\ARMCLANG\include\stdint.h \
-  C:\Users\tuan\Documents\GitHub\ARM-Pilot\Drivers\CMSIS\Include\cmsis_version.h \
-  C:\Users\tuan\Documents\GitHub\ARM-Pilot\Drivers\CMSIS\Include\cmsis_compiler.h \
-  C:\Users\tuan\Documents\GitHub\ARM-Pilot\Drivers\CMSIS\Include\cmsis_armclang.h \
+  C:\Users\tuan\Documents\Stmproject\ARM-pilot\Drivers\CMSIS\Include\cmsis_version.h \
+  C:\Users\tuan\Documents\Stmproject\ARM-pilot\Drivers\CMSIS\Include\cmsis_compiler.h \
+  C:\Users\tuan\Documents\Stmproject\ARM-pilot\Drivers\CMSIS\Include\cmsis_armclang.h \
   C:\Keil_v5\ARM\ARMCLANG\include\arm_compat.h \
   C:\Keil_v5\ARM\ARMCLANG\include\arm_acle.h \
   ..\Drivers\CMSIS\Device\ST\STM32F1xx\Include\system_stm32f1xx.h \
@@ -34,7 +34,14 @@ arm-pilot/scheduler.o: ..\Core\flight\scheduler.c ..\Core\Inc\usart.h \
   ..\Core\flight\plane.h ..\Core\Lib\log.h ..\Core\Lib\imu.h \
   ..\Core\Lib\axis.h C:\Keil_v5\ARM\ARMCLANG\include\stdio.h \
   ..\Core\Lib\pwmwrite.h ..\Core\Inc\tim.h ..\Core\Lib\pid.h \
-  ..\Core\sensor\ibus.h ..\Core\Lib\gps.h ..\Core\Lib\timer.h \
-  ..\Core\sensor\mpu6050.h ..\Core\sensor\ms5611.h \
-  ..\Core\sensor\qmc5883.h ..\Core\sensor\..\lib\axis.h \
-  ..\Core\flight\interrupthandler.h ..\Core\Lib\ppmreceiver.h
+  ..\Core\Driver\ibus.h ..\Core\Lib\gps.h ..\Core\Lib\timer.h \
+  ..\Core\Lib\utils.h ..\Core\Driver\mpu6050.h ..\Core\Driver\ms5611.h \
+  ..\Core\Driver\hmc5883.h ..\Core\Driver\..\lib\axis.h \
+  ..\Core\Driver\interrupthandler.h ..\Core\Lib\ppmreceiver.h \
+  ..\Core\Lib\sensordetect.h ..\Core\Lib\blackbox.h ..\FATFS\App\fatfs.h \
+  ..\Middlewares\Third_Party\FatFs\src\ff.h \
+  ..\Middlewares\Third_Party\FatFs\src\integer.h \
+  ..\FATFS\Target\ffconf.h \
+  ..\Middlewares\Third_Party\FatFs\src\ff_gen_drv.h \
+  ..\Middlewares\Third_Party\FatFs\src\diskio.h \
+  ..\FATFS\Target\user_diskio.h

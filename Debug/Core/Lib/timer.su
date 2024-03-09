@@ -1,5 +1,0 @@
-../Core/Lib/timer.c:10:6:delay_us	16	static
-../Core/Lib/timer.c:16:6:delay_ms	16	static
-../Core/Lib/timer.c:20:17:setoverFlow	24	static
-../Core/Lib/timer.c:28:6:time_inf	8	static
-../Core/Lib/timer.c:35:6:timer_start	16	static

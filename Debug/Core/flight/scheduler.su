@@ -1,3 +1,0 @@
-../Core/flight/scheduler.c:27:6:tongepin	8	static
-../Core/flight/scheduler.c:42:6:init_sche	8	static
-../Core/flight/scheduler.c:60:6:start_scheduler	24	static
