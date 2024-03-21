@@ -2,6 +2,7 @@
 #include "../lib/timer.h"
 #include "../lib/maths.h"
 #include"i2c.h"
+#include "blackbox.h"
 
 #define MS5611_ADDR            (0x77<<1)
 #define CMD_RESET               0x1E // ADC reset command
@@ -31,9 +32,9 @@ static int8_t ms5611_check_crc(void);
 static uint32_t ms5611_read_adc(void);
 static void send_cmd(uint8_t);
 static void ms_5611_readout();
-int32_t PRESS;
+int32_t _pressure;
 float TEMP;
-float alt;
+int _altitude;
 
 static uint16_t ms5611_c[PROM_NB];  // on-chip ROM
 
@@ -42,11 +43,15 @@ static uint32_t baro_timer;
 static float seaLevelPress;
 static uint8_t readStep;
 
+
+black_box_file_t alt_;
 void ms5611_init(I2C_HandleTypeDef *hi2c2)
 {
     hi2c = hi2c2;
     readStep = 0;
     baro_timer = millis();
+	
+	black_box_create_file(&alt_,"alt_data.txt");
     // reset sensor
     ms5611_reset();
     // read all coefficients
@@ -126,6 +131,7 @@ static uint32_t ms5611_read_adc(void)
 
 uint32_t _D1 = 0; 
 uint32_t _D2 = 0; 
+/*
 void ms5611_start()
 {
     switch (readStep){
@@ -153,6 +159,44 @@ void ms5611_start()
     }
 
 }
+*/
+void ms5611_start()
+{  
+	
+	
+	static int count = 0;
+	count ++;
+	if(count == 20){
+       _D2 = ms5611_read_adc();
+        send_cmd(CMD_ADC_CONV + CMD_ADC_D1 + CMD_ADC_256);
+        count = 0;
+		return;
+	}
+	
+    switch (readStep){
+    case 0:
+        send_cmd(CMD_ADC_CONV + CMD_ADC_D2 + CMD_ADC_256);
+        _D1 = _D2 = 0;
+        readStep ++;
+        break;
+
+    case 1:
+        _D1 = ms5611_read_adc();
+        if (_D1 == 0 || _D2 == 0) { 
+        	readStep = 0;
+             break;
+
+        }else{
+            ms_5611_readout();
+        }
+        readStep = 0;
+        break;
+    }
+
+}
+
+
+float offset_altitude = 0;
 static void ms_5611_readout()
 {
 	// While sensor document states these variables should be int32 and int64 unless everything is
@@ -196,25 +240,49 @@ static void ms_5611_readout()
 	SENS -= SENS2;
 	
 	// Calculate pressure
-	 pressure=((_D1*SENS/2097152.0f-OFF)/32768.0f)+_POFFSET; // (((_D1*SENS)/pow(2,21)-OFF)/pow(2,15))
+	 pressure =((_D1*SENS/2097152.0f-OFF)/32768.0f)+_POFFSET; // (((_D1*SENS)/pow(2,21)-OFF)/pow(2,15))
 	// Convert temperature to Celcius
 	TEMP = temp * 0.01f;
     // press
-    PRESS = pressure;
+	static int8_t pr_start = 1;
+	 if(pr_start){
+	   _pressure = pressure;
+		 pr_start = 0;
+	 }
+	 else{
+       _pressure = 0.7*_pressure + 0.3* pressure;
+	 }
+
     // Altitude 
-    static float offalt =0;
-    static int8_t ss = 0;
-    float aalt =  44330. * (1. - pow(pressure / (float)_SEALEVELPRESS, 0.19029495));// - offalt;
-    if(aalt != 0 && ss ==0 ){
-    	offalt = aalt;
-        ss  =1;
-    }
-    alt = aalt;  //cm
+    //static float offset_altitude = 0;
+    static uint8_t init_offset = 0;
+    float altitude_cal =  44330.0f* (1. - pow(_pressure/ (float)_SEALEVELPRESS, 0.19029495)); // cm
+/*
+	while(init_offset < 5){
+	    offset_altitude += altitude_cal;
+		if(init_offset == 4){
+		   offset_altitude /= 5;
+		}
+	    init_offset  ++;
+	}
+    if(init_offset > 4){
+	   alt = altitude_cal ;//- offset_altitude;  
+	}
+	else{
+	    alt = 0.0f;
+	}
+	*/
+	_altitude = altitude_cal*100;//- offset_altitude;  
+	black_box_pack_int(&alt_,_altitude);
+	black_box_pack_str(&alt_,"\n");
+	// load to sd card
+	black_box_load(&alt_);
+	black_box_sync(&alt_);
 }
 
 static float ms5611_getSeaLevel(double altitude)
 {	
-	if (PRESS == 0) {
+	if (_pressure == 0) {
 		return -1;
 	}
 	

@@ -2,7 +2,6 @@
 #include "i2c.h"
 #include "blackbox.h"
 
-#define SENSOR_COUNT 5
 typedef struct{
 	uint8_t addr;
 	char *name;
@@ -17,7 +16,7 @@ sensor_t sensor_list[SENSOR_COUNT] ={
    { 0x77,"0x77 ms5611"  ,-1 }
    /* more */
 };
-uint8_t kk[SENSOR_COUNT];
+uint8_t sensor_[SENSOR_COUNT];
 black_box_file_t sensor_file;
 /*
  * Scan i2c address 0 to 127
@@ -37,7 +36,7 @@ void i2cDectect(I2C_HandleTypeDef *i2c){
                     sensor_list[j].valid = 0;
                 }
             }
-			kk[sensor_count] = i;
+			sensor_[sensor_count] = i;
 			sensor_count ++;
 			if(sensor_count == SENSOR_COUNT){
 			     break;
@@ -56,6 +55,7 @@ void i2cDectect(I2C_HandleTypeDef *i2c){
             black_box_pack_str(&sensor_file,"\n");  
         }
     }
+ 
   black_box_load(&sensor_file);
   black_box_close(&sensor_file);
 }

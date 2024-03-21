@@ -30,4 +30,6 @@ arm-pilot/timer.o: ..\Core\Lib\timer.c ..\Core\Lib\timer.h \
   ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_tim.h \
   ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_tim_ex.h \
   ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_uart.h \
-  C:\Keil_v5\ARM\ARMCLANG\include\stdio.h
+  C:\Keil_v5\ARM\ARMCLANG\include\stdio.h ..\Core\Lib\maths.h \
+  C:\Keil_v5\ARM\ARMCLANG\include\stdlib.h \
+  C:\Keil_v5\ARM\ARMCLANG\include\math.h

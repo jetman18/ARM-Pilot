@@ -24,17 +24,10 @@ enum index{
 	CH7,
 	CH8
 };
-//extern float rx_yaw;
-extern uint16_t throttle,ch5,ch3_;
-extern uint16_t altitude_stick;
-extern int hc04_Throttle;
-extern float  rx_ch1,rx_ch2,rx_ch4,flow_stick,rx_yaw;
 
 void ibusGet();
 int ibusFrameComplete(void);
-void ibusDataReceive(uint16_t c);
-uint16_t ibusReadRawRC(uint8_t chan);
-float ibusReadf(uint8_t chan,float gain);
+void ibusDataReceive(uint8_t c);
 void ibusInit(UART_HandleTypeDef *uartt,uint32_t baudrate);
 void ibusCallback();
 #ifdef __cplusplus

@@ -33,4 +33,10 @@ arm-pilot/ms5611.o: ..\Core\Driver\ms5611.c ..\Core\Driver\ms5611.h \
   ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_uart.h \
   ..\Core\Driver\..\lib\timer.h ..\Core\Driver\..\lib\maths.h \
   C:\Keil_v5\ARM\ARMCLANG\include\stdlib.h \
-  C:\Keil_v5\ARM\ARMCLANG\include\math.h
+  C:\Keil_v5\ARM\ARMCLANG\include\math.h ..\Core\Lib\blackbox.h \
+  ..\FATFS\App\fatfs.h ..\Middlewares\Third_Party\FatFs\src\ff.h \
+  ..\Middlewares\Third_Party\FatFs\src\integer.h \
+  ..\FATFS\Target\ffconf.h \
+  ..\Middlewares\Third_Party\FatFs\src\ff_gen_drv.h \
+  ..\Middlewares\Third_Party\FatFs\src\diskio.h \
+  ..\FATFS\Target\user_diskio.h

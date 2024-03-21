@@ -32,4 +32,5 @@ arm-pilot/pid.o: ..\Core\Lib\pid.c ..\Core\Lib\pid.h \
   ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_uart.h \
   C:\Keil_v5\ARM\ARMCLANG\include\stdio.h ..\Core\Lib\filter.h \
   ..\Core\Lib\maths.h C:\Keil_v5\ARM\ARMCLANG\include\stdlib.h \
-  C:\Keil_v5\ARM\ARMCLANG\include\math.h ..\Core\Lib\timer.h
+  C:\Keil_v5\ARM\ARMCLANG\include\math.h ..\Core\Lib\timer.h \
+  C:\Keil_v5\ARM\ARMCLANG\include\string.h

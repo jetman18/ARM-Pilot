@@ -6,6 +6,7 @@
 #include "timer.h"
 #include "imu.h"
 #include "axis.h"
+#include "blackbox.h"
 
 #define ADRR_CFG_REG_A       0x00
 #define ADRR_CFG_REG_B       0x01
@@ -41,7 +42,7 @@ enum {
 
 /* CONFIGURATION FOR REGISTER B */
 enum {
-    GAIN_0_88GA = 0,
+	GAIN_0_88GA = 0,
 	GAIN_1_3GA,   //default
 	GAIN_1_9GA,
 	GAIN_2_5GA,
@@ -71,6 +72,7 @@ I2C_HandleTypeDef *qmc_i2cport;
 float heading;
 uint16_t timeout = 1000; // ms
 uint16_t read_timeout = 1000; //ms
+
 /*  
  * Configuration hmc5833l
  */
@@ -94,21 +96,16 @@ void hmc5883_init(I2C_HandleTypeDef *i2cport){
 }
 
 
-axis3_t tt;
-//void hmc_get_raw(axis3_t *axis){
-void hmc_get_raw(){
-	  uint8_t buf[6]={0};
-	  HAL_I2C_Mem_Read(qmc_i2cport,hmc_addr,(uint8_t)ADRR_START_DATA_REG ,1,buf,6,read_timeout);
-	  tt.x=((int16_t)buf[1]<<8|buf[0]) ;
-	  tt.y=((int16_t)buf[3]<<8|buf[2]);
-	  tt.z=((int16_t)buf[5]<<8|buf[4]);
+void hmc_get_raw(axis3_t *as){
+	uint8_t buf[6]={0};
+	HAL_I2C_Mem_Read(qmc_i2cport,hmc_addr,(uint8_t)ADRR_START_DATA_REG ,1,buf,6,read_timeout);
+	as->x=((int16_t)buf[0]<<8|buf[1]);
+	as->z=((int16_t)buf[2]<<8|buf[3]);
+	as->y=((int16_t)buf[4]<<8|buf[5]);
 }
 
 
-
-
-int16_t max_val[] = {-32767,-32767,-32767};
-int16_t min_val[] = {32767, 32767, 32767};
+/*
 void magnet_sensor_calibrate(){
 
 	int16_t mx,my,mz;
@@ -138,4 +135,5 @@ void magnet_sensor_calibrate(){
 		}
 	}
 }
+*/
 

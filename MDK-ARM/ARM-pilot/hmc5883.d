@@ -34,4 +34,10 @@ arm-pilot/hmc5883.o: ..\Core\Driver\hmc5883.c ..\Core\Inc\i2c.h \
   ..\Core\Driver\..\lib\axis.h C:\Keil_v5\ARM\ARMCLANG\include\stdio.h \
   ..\Core\Lib\maths.h C:\Keil_v5\ARM\ARMCLANG\include\stdlib.h \
   ..\Core\Lib\filter.h ..\Core\Lib\timer.h ..\Core\Lib\imu.h \
-  ..\Core\Lib\axis.h
+  ..\Core\Lib\axis.h ..\Core\Lib\blackbox.h ..\FATFS\App\fatfs.h \
+  ..\Middlewares\Third_Party\FatFs\src\ff.h \
+  ..\Middlewares\Third_Party\FatFs\src\integer.h \
+  ..\FATFS\Target\ffconf.h \
+  ..\Middlewares\Third_Party\FatFs\src\ff_gen_drv.h \
+  ..\Middlewares\Third_Party\FatFs\src\diskio.h \
+  ..\FATFS\Target\user_diskio.h

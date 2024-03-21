@@ -7,6 +7,10 @@
         "timer.h": "c",
         "stm32f1xx_hal.h": "c",
         "i2c.h": "c",
-        "sensordetect.h": "c"
+        "sensordetect.h": "c",
+        "maths.h": "c",
+        "stdio.h": "c",
+        "compass.h": "c",
+        "sstream": "c"
     }
 }

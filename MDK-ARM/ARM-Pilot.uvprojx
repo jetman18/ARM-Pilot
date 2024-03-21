@@ -340,7 +340,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F103xB</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F1xx/Include;../Drivers/CMSIS/Include;../Core/flight;../Core/Lib;../Core/Driver;../Core/mavlink;../Core/mavlink/common;../FATFS/Target;../FATFS/App;../Middlewares/Third_Party/FatFs/src;../Core/Sdcard</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F1xx/Include;../Drivers/CMSIS/Include;../Core/flight;../Core/Lib;../Core/Driver;../Core/mavlink;../Core/mavlink/common;../FATFS/Target;../FATFS/App;../Middlewares/Third_Party/FatFs/src;../Core/Sdcard;../Core/HITL-simutation</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -691,6 +691,11 @@
               <FileType>5</FileType>
               <FilePath>..\Core\Driver\interrupthandler.h</FilePath>
             </File>
+            <File>
+              <FileName>redefine.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Core\Driver\redefine.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -815,6 +820,26 @@
               <FileName>sensordetect.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Core\Lib\sensordetect.c</FilePath>
+            </File>
+            <File>
+              <FileName>compass.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Lib\compass.c</FilePath>
+            </File>
+            <File>
+              <FileName>compass.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Core\Lib\compass.h</FilePath>
+            </File>
+            <File>
+              <FileName>faulthandler.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Lib\faulthandler.c</FilePath>
+            </File>
+            <File>
+              <FileName>faulthandler.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Core\Lib\faulthandler.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -2124,6 +2149,21 @@
               <FileName>fatfs_sd.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Core\Sdcard\fatfs_sd.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>HITL-sim</GroupName>
+          <Files>
+            <File>
+              <FileName>simulation.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\HITL-simutation\simulation.c</FilePath>
+            </File>
+            <File>
+              <FileName>simulation.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Core\HITL-simutation\simulation.h</FilePath>
             </File>
           </Files>
         </Group>

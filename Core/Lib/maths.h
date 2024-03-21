@@ -27,10 +27,13 @@
 #define sq(x) ((x)*(x))
 #endif
 #define power3(x) ((x)*(x)*(x))
-
+#define abs(x)  ((x > 0) ? x : x *(-1))
 // Undefine this for use libc sinf/cosf. Keep this defined to use fast sin/cos approximations
 #define FAST_MATH             // order 9 approximation
 #define VERY_FAST_MATH        // order 7 approximation
+
+#define TRUE  1
+#define FALSE 0
 
 // Use floating point M_PI instead explicitly.
 #define M_PIf       3.14159265358979323846f

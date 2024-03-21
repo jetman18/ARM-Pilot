@@ -31,5 +31,5 @@ arm-pilot/bmp280.o: ..\Core\Driver\bmp280.c ..\Core\Driver\bmp280.h \
   ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_tim_ex.h \
   ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_uart.h \
   C:\Keil_v5\ARM\ARMCLANG\include\stdbool.h \
-  C:\Keil_v5\ARM\ARMCLANG\include\math.h ..\Core\Driver\..\lib\timer.h \
+  C:\Keil_v5\ARM\ARMCLANG\include\math.h ..\Core\Lib\timer.h \
   C:\Keil_v5\ARM\ARMCLANG\include\stdio.h

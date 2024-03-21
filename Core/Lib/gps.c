@@ -194,11 +194,11 @@ void gpsInit(UART_HandleTypeDef *uart,uint32_t baudrate)
 
     // Configuration _gps module
     HAL_UART_Transmit(_gpsUartPort,ubloxInit,sizeof(ubloxInit),1000);
-    delay_ms(10);
+    //delay_ms(10);
     HAL_UART_Transmit(_gpsUartPort,ubloxSbasInit,sizeof(ubloxSbasInit),1000);
-    delay_ms(10);
+    //delay_ms(10);
     HAL_UART_Transmit(_gpsUartPort,uart57600,sizeof(uart57600),1000);
-    delay_ms(10);
+    //delay_ms(10);
     // set baudrate
     _gpsUartPort->Init.BaudRate = baudrate;
 	HAL_UART_Init(_gpsUartPort); 

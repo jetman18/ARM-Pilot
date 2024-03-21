@@ -17,8 +17,9 @@
 #define MPU_RA_PWR_MGMT_1                    0x6B
 #define INT_PIN_CFG                          0x37
 #define  USER_CTRL                           0x6a
+#define I2C
 
-
+// spi for mpu6500 or 6000
 #ifdef SPI
 #define SPI_MPU_GPIO_CS_PIN          GPIO_PIN_4
 #define SPI_MPU_GPIO_PORT            GPIOA
@@ -105,12 +106,9 @@ int8_t mpu6050connectFlag(){
 /* configuration mpu6050*/
 
 
-int8_t mpu6050_init(
-#ifdef I2C
-    I2C_HandleTypeDef *hi2c
-#endif
-){
-#ifdef SPI
+int8_t mpu6050_init(I2C_HandleTypeDef *hi2c){
+
+#ifdef SPI   // mpu6500 of 6000
     uint8_t data[2];
 	data[0] = MPU_RA_PWR_MGMT_1;
 	data[1] = 0x00;
@@ -168,10 +166,10 @@ int8_t mpu6050_init(
  * y - rate
  * z - rate   
  */
-void mpu6050_gyro_get_raw(axis3_t *k){
-	  axis3_t p_val = *k;
+void mpu6050_gyro_get_raw(axis3_t *raw){
 	  uint8_t buffe[6];
 	  buffe[0] = (uint8_t)GYRO_DATA_REG;
+
 #ifdef I2C
 	  HAL_I2C_Master_Transmit(i2c,IMU_DEV_ADDRES,buffe,1,1);
 	  HAL_I2C_Master_Receive(i2c,IMU_DEV_ADDRES,buffe,6,1);
@@ -183,10 +181,9 @@ void mpu6050_gyro_get_raw(axis3_t *k){
 	  HAL_SPI_Receive(&SPI_PORT,buffe,6,1);
 	  HAL_GPIO_WritePin(SPI_MPU_GPIO_PORT,SPI_MPU_GPIO_CS_PIN,GPIO_PIN_SET);
 #endif
-
-	  k->x = (int16_t)buffe[0]<<8|buffe[1];
-	  k->y = (int16_t)buffe[2]<<8|buffe[3];
-	  k->z = (int16_t)buffe[4]<<8|buffe[5];
+	  raw->x = (int16_t)buffe[0]<<8|buffe[1];
+	  raw->y = (int16_t)buffe[2]<<8|buffe[3];
+	  raw->z = (int16_t)buffe[4]<<8|buffe[5];
 	}
 
 /* Acc get raw data
@@ -242,7 +239,6 @@ void mpu_read_all(axis3_t *acc, axis3_t *gyr){
 	*  Set gyro sensitivity
 	*  Set acc sensitivity
 	*/
-
 int16_t get_axis_register(uint8_t addr){
 	uint8_t buffe[2];
 	HAL_I2C_Master_Transmit(i2c,IMU_DEV_ADDRES,&addr,1,1);

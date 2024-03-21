@@ -37,4 +37,6 @@ arm-pilot/blackbox.o: ..\Core\Lib\blackbox.c ..\FATFS\App\fatfs.h \
   ..\Middlewares\Third_Party\FatFs\src\diskio.h \
   ..\FATFS\Target\user_diskio.h C:\Keil_v5\ARM\ARMCLANG\include\string.h \
   ..\Core\Lib\timer.h C:\Keil_v5\ARM\ARMCLANG\include\stdio.h \
-  ..\Core\Lib\utils.h ..\Core\Lib\blackbox.h
+  ..\Core\Lib\utils.h ..\Core\Lib\blackbox.h \
+  C:\Keil_v5\ARM\ARMCLANG\include\math.h \
+  C:\Keil_v5\ARM\ARMCLANG\include\stdlib.h

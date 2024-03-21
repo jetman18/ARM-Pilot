@@ -1,7 +1,7 @@
 
 #include "bmp280.h"
 #include "math.h"
-#include "../lib/timer.h"
+#include "timer.h"
 #include "stm32f1xx_hal.h"
 /**
  * BMP280 registers

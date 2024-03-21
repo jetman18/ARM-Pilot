@@ -11,7 +11,7 @@ extern "C" {
 #include "ibus.h"
 #include "timer.h"
 #include "ppmreceiver.h"
-
+#include "simulation.h"
 #include "gps.h"
 // IQR function
 //----------------------------------IQR--Handler-----------------------------
@@ -20,7 +20,8 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 	// UART1 for GPS 
     if(huart == &huart1)
 	{
-    	gpsCallback();
+    	//gpsCallback();
+		hitl_callback();
     }
 }
 
@@ -28,6 +29,7 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
 {
     if(huart == &huart1)
 	{
+		//hitl_callback();
     }
 }
 
@@ -42,6 +44,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
     }
     */
 }
+
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 {
     // time4 use for scheduler( millis , micros)

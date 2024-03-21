@@ -16,8 +16,8 @@ typedef struct{
 }MAG_t;
 
 void hmc5883_init(I2C_HandleTypeDef *i2cport);
-void magnet_sensor_calibrate();
-void  hmc_get_raw();
+//void magnet_sensor_calibrate();
+void hmc_get_raw(axis3_t *as);
 #ifdef __cplusplus
 }
 #endif

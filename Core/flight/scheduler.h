@@ -7,11 +7,13 @@ extern "C" {
 
 #include "stm32f1xx_hal.h"
 
+typedef uint32_t time_us;
+
 typedef struct {
     void (*exec)();
-    uint32_t execution_time_us;
-    uint32_t execution_cycle_us;
-    uint32_t last_exec_time_us;
+    time_us execution_time_us;
+    time_us execution_cycle_us;
+    time_us last_exec_time_us;
     uint32_t period;
 } task_t;
 

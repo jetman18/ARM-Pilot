@@ -1,4 +1,4 @@
-arm-pilot/ibus.o: ..\Core\Driver\ibus.c ..\Core\Driver\..\lib\maths.h \
+arm-pilot/ibus.o: ..\Core\Driver\ibus.c ..\Core\Lib\maths.h \
   C:\Keil_v5\ARM\ARMCLANG\include\stdlib.h \
   C:\Keil_v5\ARM\ARMCLANG\include\stdint.h \
   C:\Keil_v5\ARM\ARMCLANG\include\math.h ..\Core\Driver\ibus.h \
@@ -32,5 +32,4 @@ arm-pilot/ibus.o: ..\Core\Driver\ibus.c ..\Core\Driver\..\lib\maths.h \
   ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_tim.h \
   ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_tim_ex.h \
   ..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_uart.h \
-  ..\Core\Driver\..\lib\timer.h C:\Keil_v5\ARM\ARMCLANG\include\stdio.h \
-  ..\Core\Driver\..\lib\imu.h ..\Core\Driver\..\lib\axis.h
+  ..\Core\Lib\timer.h C:\Keil_v5\ARM\ARMCLANG\include\stdio.h

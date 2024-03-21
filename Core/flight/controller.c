@@ -7,74 +7,126 @@
 #include "plane.h"
 #include "utils.h"
 
-#define MAX_TILT_ANGLE 45  
-#define MAX_ANGLULAR_VELOCITY 100 //deg/s
-#define MAX_I_VAL  200
+float max_pid_value = 1000;
+static float max_tilt_angle = 45;  
+static float max_intergal_value =  200;
+static float Dt = 0.004f;
 
-static uint32_t pid_timer;
 uint16_t pitch_cmd,roll_cmd;
-uint8_t init_statte = 1;
 
-float pitch_I;
-float pitchKp = 1;
-float pitchKi = 0;
-float pitchKd = 0;
-float last_pitch;
-float pitch_D;
-float lpf_p_gain = 0.1f;
-//
-float roll_I;
-float rollKp = 1;
-float rollKi = 0;
-float rollKd = 0;
-float last_roll;
-float roll_D;
-float lpf_r_gain = 0.1f;
+/*------Roll------------------*/
+float roll_kpf = 1;
+float roll_kp  = 1;
+float roll_ki  = 0.5;
+float roll_kd = 0;
+float roll_I_term = 0;
+float roll_last_rate = 0;
+float roll_f_cut_D = 30;
+float roll_D_filted = 0;
+float roll_rate_limit = 100;
 
-void attitudeCrtlReset();
-static float antiwindupIntergal(float val);
-// ppi controller
-void pitchRollControl(float target_roll,float target_pitch){
-    if(init_statte){
-        attitudeCrtlReset();
-        pid_timer = millis();
-        last_pitch = AHRS.pitch;
-        last_roll = AHRS.roll;
-        init_statte = 0;
-        return;
-    }
-    uint32_t deltaT = millis() - pid_timer;
-    pid_timer = millis();
-    //pitch
-    float pitch_error_p = target_pitch - AHRS.pitch;
-    float pitch_P = pitch_error_p*pitchKp;
-    pitch_I += pitch_error_p*pitchKi*MSTOSEC(deltaT);
-    pitch_I = antiwindupIntergal(pitch_I);
-    pitch_I = constrainf(pitch_I,-MAX_I_VAL,MAX_I_VAL);
-    float Dpitch_ = pitchKd*(AHRS.pitch - last_pitch)/MSTOSEC(deltaT);
-    last_pitch = AHRS.pitch;
-    // low pass filer
-    pitch_D += lpf_p_gain*(Dpitch_ - pitch_D);
-    float pitch_PID = pitch_P + pitch_I + pitch_D;
-    //roll
-    float roll_error_p = target_roll- AHRS.roll;
-    float roll_P = roll_error_p*rollKp;
-    roll_I += roll_error_p*rollKi*MSTOSEC(deltaT);
-    roll_I = antiwindupIntergal(roll_I);
-    roll_I = constrainf(roll_I,-MAX_I_VAL,MAX_I_VAL);
-    float Droll_ = rollKd*(AHRS.roll - last_roll)/MSTOSEC(deltaT);
-    last_roll = AHRS.roll;
-    // low pass filer
-    roll_D += lpf_p_gain*(Droll_ - roll_D);
-    float roll_PID = roll_P + roll_I + roll_D;
-    //
-    pitch_cmd = 1500  - roll_PID + pitch_PID;
-    roll_cmd  = 1500  + roll_PID + pitch_PID;
-    pitch_cmd = constrain(pitch_cmd,1000,2000);
-    roll_cmd  = constrain(roll_cmd,1000,2000);
-    writePwm(0,pitch_cmd);
-    writePwm(1,roll_cmd);
+/*------Pitch------------------*/
+float pitch_kpf = 1;
+float pitch_kp  = 1;
+float pitch_ki  = 0.5;
+float pitch_kd = 0;
+float pitch_I_term = 0;
+float pitch_last_rate = 0;
+float pitch_f_cut_D = 30;
+float pitch_D_filted = 0;
+float pitch_rate_limit = 100;
+
+/* axis control with ppid controller
+ * input set angle
+ * return PID value
+ */
+int32_t roll_control(float target_roll){
+   // angle error
+   float Delat_angle = (target_roll - AHRS.roll)*roll_kpf;
+   // rate limited
+   Delat_angle = constrainf(Delat_angle,-roll_rate_limit,roll_rate_limit);
+
+   // rate error
+   float Delta_rate_angle = Delat_angle - AHRS.roll_rate;
+
+   // calculate proportional term
+   float P_term =  Delta_rate_angle*roll_kp;
+
+   // calculate derivative term
+   float D_temp =  (AHRS.roll_rate - roll_last_rate)/Dt;
+   roll_last_rate = AHRS.roll_rate;
+
+   // Apply low pass filter 
+   float RC = 1.0f / (2 *M_PIf *roll_f_cut_D);
+   float gain_lpf = Dt/(RC + Dt);
+   roll_D_filted += gain_lpf*(D_temp - roll_D_filted);
+   float D_term = roll_D_filted*roll_kd;
+
+   // calculate intergal term
+   roll_I_term += Delta_rate_angle*roll_ki*Dt;
+   //float max_i = max_pid_value - P_term - D_term;
+   //roll_I_term = constrainf(roll_I_term,-max_i,max_i);
+   roll_I_term = constrainf(roll_I_term,-max_intergal_value,max_intergal_value);
+   
+   int32_t PID = (int32_t)(P_term  + D_term + roll_I_term);
+   PID = constrain(PID,-max_pid_value,max_pid_value);
+   // Return PID value
+   return PID;
 }
+
+/* axis control with ppid controller
+ * input target angle
+ * return PID value
+ */
+int32_t pitch_control(float target_pitch){
+   // angle error
+   float Delat_angle = (target_pitch - AHRS.pitch)*pitch_kpf;
+   // rate limted
+   Delat_angle = constrainf(Delat_angle,-pitch_rate_limit,pitch_rate_limit);
+
+   // rate error
+   float Delta_rate_angle = Delat_angle - AHRS.pitch_rate;
+
+   // calculate proportional term
+   float P_term =  Delta_rate_angle*pitch_kp;
+
+   // calculate derivative term
+   float D_temp =  (AHRS.pitch_rate - pitch_last_rate)/Dt;
+   pitch_last_rate = AHRS.pitch_rate;
+   // Apply low pass filter 
+   float RC = 1.0f / (2 *M_PIf *pitch_f_cut_D);
+   float gain_lpf = Dt/(RC + Dt);
+   pitch_D_filted += gain_lpf*(D_temp - pitch_D_filted);
+   float D_term = pitch_D_filted*pitch_kd;
+
+   // calculate intergal term
+   pitch_I_term += Delta_rate_angle*pitch_ki*Dt;
+   // float max_i = max_pid_value - P_term - D_term;
+   // pitch_I_term = constrainf( pitch_I_term,-max_i,max_i);
+   pitch_I_term = constrainf(pitch_I_term,-max_intergal_value,max_intergal_value);
+   
+   int32_t PID = (int32_t)(P_term  + D_term + roll_I_term);
+   PID = constrain(PID,-max_pid_value,max_pid_value);
+   // Return PID value
+   return PID;
+}
+
+int32_t altitudeControl(){
+
+
+}
+int32_t speedControl(){
+
+    
+}
+
+
+
+void heading_control(float yaw_cmd){
+
+
+}
+
 
 static float antiwindupIntergal(float val){
      if(fabs(val)<1.0f){
@@ -83,28 +135,5 @@ static float antiwindupIntergal(float val){
      else
         return val;
 }
-void setPIDgain(int axis,float kp,float ki,float kd){
-    if (axis == 0){
-        rollKp = kp;
-        rollKi = ki;
-        rollKd = kd;
-    }
-    else if (axis == 1)
-    {
-        pitchKp = kp;
-        pitchKi = ki;
-        pitchKd = kd;
-    }
-    
-}
-void attitudeCrtlReset()
-{
-   roll_I     = 0;
-   roll_D     = 0;
-   pitch_D    = 0;
-   pitch_I    = 0;
-   last_roll  = 0;
-   last_pitch = 0;
-   pitch_cmd  = 0;
-   roll_cmd   = 0;
-}
+
+

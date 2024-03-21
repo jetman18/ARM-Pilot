@@ -40,6 +40,8 @@
 "arm-pilot\timer.o"
 "arm-pilot\blackbox.o"
 "arm-pilot\sensordetect.o"
+"arm-pilot\compass.o"
+"arm-pilot\faulthandler.o"
 "arm-pilot\controller.o"
 "arm-pilot\estimate.o"
 "arm-pilot\mavlink_handler.o"
@@ -54,6 +56,7 @@
 "arm-pilot\syscall.o"
 "arm-pilot\ccsbcs.o"
 "arm-pilot\fatfs_sd.o"
+"arm-pilot\simulation.o"
 --strict --scatter "ARM-pilot\ARM-pilot.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

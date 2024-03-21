@@ -14,14 +14,17 @@ typedef struct{
 }bootTime_t;
 
 extern TIM_HandleTypeDef *htimmz;
-static volatile uint32_t micross;
-#define HZ_TO_MICRO(hz)  (uint32_t)(((1.0f)/(hz))*1000000UL)
-#define TIMER_CALLBACK() (micross += 65535UL)
-uint32_t micros();
-uint32_t millis();
+extern uint32_t _micros;
+
+void timer_callback();
 void timer_start(TIM_HandleTypeDef *htimz);
-void delay_ms(uint32_t val);
-void delay_us(uint32_t val);
+
+void delay_us(const uint32_t val);
+void delay_ms(const uint32_t val);
+
+#define micros() (_micros + (__HAL_TIM_GET_COUNTER(htimmz)))
+#define millis() (micros() / 1000)
+#define TIMER_CALLBACK()  (_micros += 65536)
 #ifdef __cplusplus
 }
 #endif

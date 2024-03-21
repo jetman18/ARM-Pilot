@@ -27,9 +27,10 @@ float dcm[3][3];
 float acc_pitch;
 float acc_roll;
 
-int16_t gyr_offs_x;
-int16_t gyr_offs_y;
-int16_t gyr_offs_z;
+static int16_t gyr_offs_x;
+static int16_t gyr_offs_y;
+static int16_t gyr_offs_z;
+static uint8_t isGyrocalibrated = FALSE;
 
 //IMU configuration parameters
 imu_config_t config =
@@ -58,41 +59,49 @@ static void normalizeV(axis3_t *src)
 static void gyro_read(faxis3_t *angle){
 	axis3_t p;
 	static float gyro_v[3];
-	mpu6050_gyro_get_raw(&p);
 
-	float RC = 1.0f / (2 *M_PIf *config.gyro_f_cut);
-    float temp = (float)config.dt*(1e-06f);
-	float gain_lpf =temp / (RC + temp);
+	if(isGyrocalibrated == TRUE){
+		mpu6050_gyro_get_raw(&p);
+
+		float RC = 1.0f / (2 *M_PIf *config.gyro_f_cut);
+		float temp = (float)config.dt*(1e-06f);
+		float gain_lpf =temp / (RC + temp);
 
 
-	float x_  = ((float)(p.x))/config.gyr_lsb;
-	float y_ =  ((float)(p.y))/config.gyr_lsb;
-	float z_  = ((float)(p.z))/config.gyr_lsb;
+		float x_  = ((float)(p.x))/config.gyr_lsb;
+		float y_ =  ((float)(p.y))/config.gyr_lsb;
+		float z_  = ((float)(p.z))/config.gyr_lsb;
 
-    gyro_v[X] = gyro_v[X] + gain_lpf*(x_ - gyro_v[X]);
-    gyro_v[Y] = gyro_v[Y] + gain_lpf*(y_ - gyro_v[Y]);
-    gyro_v[Z] = gyro_v[Z] + gain_lpf*(z_ - gyro_v[Z]);
+		gyro_v[X] = gyro_v[X] + gain_lpf*(x_ - gyro_v[X]);
+		gyro_v[Y] = gyro_v[Y] + gain_lpf*(y_ - gyro_v[Y]);
+		gyro_v[Z] = gyro_v[Z] + gain_lpf*(z_ - gyro_v[Z]);
 
-    angle->x = gyro_v[X];
-    angle->y = gyro_v[Y];
-    angle->z = gyro_v[Z];
+		angle->x = gyro_v[X];
+		angle->y = gyro_v[Y];
+		angle->z = gyro_v[Z];
+	}else{
+	    angle->x = 0.0f;
+		angle->y = 0.0f;
+		angle->z = 0.0f;
+	}
 }
 
 
 void imuCalibrate(){
 	int32_t store_gyro[3];
-	delay_ms(1000); // wait 3 seconds after connected battery 
 	axis3_t gyro_;
-	for(int i = 0;i < OFFSET_CYCLE;i++){
+	for(int i = 0;i < OFFSET_CYCLE; i++){
 		mpu6050_gyro_get_raw(&gyro_);
 		store_gyro[X] += gyro_.x;
     	store_gyro[Y] += gyro_.y;
     	store_gyro[Z] += gyro_.z;
-		delay_ms(1); // delay 1 ms
+		HAL_Delay(1); // delay 1 ms
 	}
-    gyr_offs_x = store_gyro[X]/OFFSET_CYCLE;
-    gyr_offs_y = store_gyro[Y]/OFFSET_CYCLE;
-    gyr_offs_z = store_gyro[Z]/OFFSET_CYCLE;
+    gyr_offs_x = store_gyro[X] / OFFSET_CYCLE;
+    gyr_offs_y = store_gyro[Y] / OFFSET_CYCLE;
+    gyr_offs_z = store_gyro[Z] / OFFSET_CYCLE;
+
+	isGyrocalibrated = TRUE;
 }
 
 

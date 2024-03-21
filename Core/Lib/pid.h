@@ -12,22 +12,15 @@ typedef struct pid{
 	float kp;
 	float ki;
 	float kd;
-
-	float e;
 	float I;
-	float PID;
 	float pre_value;
-	float D_smooth;
-
-    float max_P;
+	float D_filted;
 	float max_I;
-	float max_D;
-	float max_pid;
-
 	float f_cut_D;
-	float I_deadband;
+	uint32_t last_call_us;
 }pid__t;
-void pidCalculate(pid__t *gain,float sensor,float control,uint32_t delta_time);
+void initPid(pid__t  *pid,float kp, float ki, float kd, float f_cut_D, float maxI);
+float pidCalculate(pid__t *gain,float setpoint,float intput);
 void resetPID(pid__t *t);
 #ifdef __cplusplus
 }

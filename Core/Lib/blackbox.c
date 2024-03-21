@@ -3,25 +3,30 @@
 #include "timer.h"
 #include "utils.h"
 #include "blackbox.h"
-#define BUFFER_SIZE 400
+#include "math.h"
+#include <stdlib.h>
+
+#define MAX_BUFFER_SIZE 400
 
 static FATFS *pfs;
 static DWORD fre_clust;
 static FATFS _fs;
-static uint8_t isSdcard_valid;
+int8_t isSdcard_valid;
+
 static void reverse( char *str, int len);
 static int intToStr(black_box_file_t *fs,int x,  char *str, int d);
-
+static int n_tu(int number, int count);
+static int Float_to_string(float f, uint8_t places, char strOut[]);
 
 /*
  * init black box, use for loging data
  *
  */
 int black_box_init(){
-    isSdcard_valid = 1;
+    isSdcard_valid = 0;
     uint8_t mount = f_mount(&_fs,"", 1);
 	if( mount != 0 ){
-        isSdcard_valid = 0;
+        isSdcard_valid = 1;
         return -1;
     }
 
@@ -30,114 +35,164 @@ int black_box_init(){
 
 int black_box_create_file(black_box_file_t *fs,char *file_name){
    if(isSdcard_valid){
+       return 0;
+   } 
         fs->buffer_index = 0;
-
-        uint8_t open = f_open(&fs->file,file_name, FA_CREATE_ALWAYS | FA_WRITE);
+        uint8_t open = f_open(&fs->file,file_name, FA_CREATE_ALWAYS | FA_WRITE | FA_READ);
         f_lseek(&fs->file,fs->file.fsize);
         if(open == FR_OK){
             return 0;
         }
-   }
+   
    return -1;
 }
 
+/*  read data
+ *  
+ */
+
+int black_box_read(black_box_file_t *fs, char *file_name, char *bufferr,uint8_t len)
+{
+    if(isSdcard_valid){
+        return 0;
+    } 
+    f_open(&fs->file,file_name,FA_READ);
+	memset(bufferr,0x00,len);
+    if(!f_gets(bufferr,len,&fs->file)){
+	   return -1;
+	}
+    f_close(&fs->file);
+	return 0;
+}
+
 /*
- *  Convert a number to string and write to buffer
+ *  Description: Convert a float number to string and write to buffer
+ */
+void black_box_pack_float(black_box_file_t *fs,float val,uint8_t digit_after_point ){
+    // do not write anything if sd card not valid
+    if(isSdcard_valid)
+        return;
+    char str_[20];
+    memset(str_,0,20);
+    uint8_t len = Float_to_string(val,digit_after_point,str_);
+    uint8_t index = 0;
+    while(str_[index]){
+        if((fs->buffer_index + index) > MAX_BUFFER_SIZE){
+                fs->buffer_index = MAX_BUFFER_SIZE;
+                return;
+        }
+        fs->buffer[fs->buffer_index + index] = str_[index];
+        index ++;
+    }
+    fs->buffer_index += index;
+}
+
+
+/*
+ *  Description: Convert a integer number to string and write to buffer
  *  Input (int type [-2147483647 2147483647] )
  */
 void black_box_pack_int(black_box_file_t *fs,int val){
     if(isSdcard_valid){
-        fs->indexx=0;
-        fs->sig = 0;
-        // max length of integer is 10 digits and subtract sign -> 11
-        char str_[11];
-        int len_str = sizeof(str_)/sizeof(char);
-        memset(str_,0,len_str);
-        if(val < 0){
-            val *= -1;
-            str_[0] = '-';
-            fs->indexx++;
-            fs->sig = 1;
-        }
-        else if(val == 0){
-            str_[0]= '0';
-        }
-        int len = intToStr(fs,val,str_,0);
-        // copy str to buffer
-        int str_idx = 0;
-        int max_index;
-        int index_flag;
-        if((fs->buffer_index + len) <=  BUFFER_SIZE){
-            max_index = fs->buffer_index + len;
-            index_flag = 1;
-        }
-        else{
-            max_index = BUFFER_SIZE;
-            index_flag = 0;
-        }
-        for(int j = fs->buffer_index; j < max_index; j++ ){
-                fs->buffer[j] = str_[str_idx ++];
-        }
-        if(index_flag){
-            fs->buffer_index += len;
-        }
-        else{
-            fs->buffer_index = BUFFER_SIZE;
-        }
-    }
+        return;
+	}
+	fs->indexx=0;
+	int len_str;
+	int val_ = val;
+	char str_[11];
+	memset(str_,0,11);
+	if(val != 0){
+		val = abs(val);
+		len_str = intToStr(fs,val,str_,0);
+		if(val_ < 0){
+			for(int i = len_str; i > 0; i--){
+				str_[i] = str_[i - 1];
+			}
+			len_str ++;
+			str_[0] = '-';
+		}
+	}
+	else{
+	   len_str = 1;
+	}
+	// copy str to buffer
+	int str_idx = 0;
+	int index_flag;
+	int max_index = fs->buffer_index + len_str;
+	if(max_index <=  MAX_BUFFER_SIZE){
+		max_index = fs->buffer_index + len_str;
+		index_flag = 1;
+	}
+	else{
+		max_index = MAX_BUFFER_SIZE;
+		index_flag = 0;
+	}
+	for(int j = fs->buffer_index ; j < max_index; j++ ){
+			fs->buffer[j] = str_[str_idx ++];
+	}
+	
+	if(index_flag){
+		fs->buffer_index += len_str;
+	}
+	else{
+		fs->buffer_index += MAX_BUFFER_SIZE;
+	}
 }
 
 /*
- * Write str to buffer
+ * Description: Write str to buffer
  */
 void black_box_pack_str(black_box_file_t *fs,const char *c){
-    if(isSdcard_valid){
-        int i = 0;
-        while (c[i]){
-            if((fs->buffer_index + i) > BUFFER_SIZE){
-                    fs->buffer_index = BUFFER_SIZE;
-                    return;
-            }
-            fs->buffer[fs->buffer_index + i] = c[i];
-            i ++;
+    if(isSdcard_valid)
+        return;
+    int i = 0;
+    while (c[i]){
+        if((fs->buffer_index + i) > MAX_BUFFER_SIZE){
+                fs->buffer_index = MAX_BUFFER_SIZE;
+                return;
         }
-        fs->buffer_index += i;
+        fs->buffer[fs->buffer_index + i] = c[i];
+        i ++;
     }
+    fs->buffer_index += i;
 }
 
 /*
- * Write buffer to sd card
+ * Description: Write buffer to sd card
  */
 void black_box_load(black_box_file_t *fs)
  {
-      if(isSdcard_valid){
-         f_puts(fs->buffer,&fs->file);
-      }
+      if(isSdcard_valid)
+		  return;
+      f_puts(fs->buffer,&fs->file);
+      memset(fs->buffer,0,sizeof(fs->buffer));
+      fs->buffer_index = 0;
+    
  }
 
 
 /*
- * sync file
+ * Description: sync file
  */
 void black_box_sync(black_box_file_t *fs)
  { 
-     if(isSdcard_valid){
-         f_sync(&fs->file);
-     }
+	 if(isSdcard_valid)
+	    return;
+	 f_sync(&fs->file);
  }
 
 /*
- * close file
+ * Description: close file
  */
 void black_box_close(black_box_file_t *fs)
  {    
-     if(isSdcard_valid){
-          f_close(&fs->file);
-     }
+	 if(isSdcard_valid)
+	    return;
+      f_close(&fs->file);
  }
 
 /*
- * get buffer length
+ * Description: get buffer length
  */
  uint16_t black_box_get_buffer_lenght(const black_box_file_t *fs)
  {
@@ -186,4 +241,79 @@ static void reverse( char *str, int len)
         str[fs->indexx++] = '0';
     reverse(str,fs->indexx);
     return fs->indexx;
+}
+
+
+
+/** Number on countu **/
+static int n_tu(int number, int count)
+{
+    int result = 1;
+    while(count-- > 0)
+        result *= number;
+
+    return result;
+}
+
+
+/*
+ * Description: Convert float to string
+ * Input: The float number to convert and how decimal places
+ * Output: The char array to save the string to
+ * Return: length of string
+ */
+static int Float_to_string(float f, uint8_t places, char strOut[])
+{
+    long long int length, length2, i, number, position, sign;
+    float number2;
+
+    sign = -1;   // -1 == positive number
+    if (f < 0)
+    {
+        sign = '-';
+        f *= -1;
+    }
+
+    number2 = f;
+    number = f;
+    length = 0;  // Size of decimal part
+    length2 = 0; // Size of tenth
+
+    /* Calculate length2 tenth part */
+    while( (number2 - (float)number) != 0.0 && !((number2 - (float)number) < 0.0)  && (length2 < places))
+    {
+         number2 = f * (n_tu(10.0, length2 + 1));
+         number = number2;
+
+         length2++;
+    }
+
+    /* Calculate length decimal part */
+    for (length = (f > 1) ? 0 : 1; f > 1; length++)
+        f /= 10;
+
+    position = length;
+    length = length + 1 + length2;
+    number = number2;
+    if (sign == '-')
+    {
+        length++;
+        position++;
+    }
+
+    for (i = length; i >= 0 ; i--)
+    {
+        if (i == (length))
+            strOut[i] = '\0';
+        else if(i == (position))
+            strOut[i] = '.';
+        else if(sign == '-' && i == 0)
+            strOut[i] = '-';
+        else
+        {
+            strOut[i] = (number % 10) + '0';
+            number /=10;
+        }
+    }
+    return length;
 }
